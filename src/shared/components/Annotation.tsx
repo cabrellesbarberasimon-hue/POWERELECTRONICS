@@ -85,7 +85,7 @@ export function DrawingLayer({ enabled, color = colors.orange, strokes, onChange
 
   return (
     <View style={StyleSheet.absoluteFill} pointerEvents={enabled ? 'auto' : 'none'} {...(enabled ? responder.panHandlers : {})}>
-      <Svg style={StyleSheet.absoluteFill} pointerEvents="none">
+      <Svg width="100%" height="100%" style={StyleSheet.absoluteFill} pointerEvents="none">
         {strokes.map((s, i) => (
           <Path key={i} d={s.d} stroke={s.color} strokeWidth={4} fill="none" strokeLinecap="round" strokeLinejoin="round" />
         ))}
