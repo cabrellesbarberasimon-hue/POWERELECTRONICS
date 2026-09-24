@@ -302,6 +302,7 @@ const es: Messages = {
     cumulative: 'Acumulado',
     breakEven: 'Equilibrio anual: año {{yearly}} · Recuperación: año {{payback}}',
     placeholderPrices: 'Los tramos 0–500 y 500–1500 no tienen precio en los documentos: son valores editables de ejemplo.',
+    perMonth: '€/mes',
     renews: 'Renueva el {{date}}',
   },
 };

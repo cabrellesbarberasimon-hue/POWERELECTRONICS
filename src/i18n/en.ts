@@ -300,6 +300,7 @@ const en = {
     cumulative: 'Cumulative',
     breakEven: 'Yearly break-even: year {{yearly}} · Payback: year {{payback}}',
     placeholderPrices: 'Tiers 0–500 and 500–1500 have no price in the documents: editable placeholders.',
+    perMonth: '€/month',
     renews: 'Renews {{date}}',
   },
 };
