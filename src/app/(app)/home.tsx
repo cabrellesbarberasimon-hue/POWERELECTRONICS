@@ -60,7 +60,8 @@ export default function Home() {
             onPress={() => router.push('/social')}
             icon={
               <Circle>
-                <MaterialCommunityIcons name="account-network" size={46} color={colors.white} />
+                <MaterialCommunityIcons name="share-variant-outline" size={44} color={colors.white} style={{ marginLeft: -8, marginTop: -8 }} />
+                <MaterialCommunityIcons name="account-circle" size={30} color={colors.white} style={{ position: 'absolute', right: 14, bottom: 12 }} />
               </Circle>
             }
           />

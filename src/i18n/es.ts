@@ -157,6 +157,7 @@ const es: Messages = {
     publishTo: 'Publicado en Comunidad y Red Social',
     motionScanFuture: 'Los avatares creados escaneando tu propio movimiento llegarán en una versión futura.',
     mediaType: 'Formato',
+    photo: 'Foto',
   },
   social: {
     title: 'Red Social',

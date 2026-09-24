@@ -17,11 +17,13 @@ export function SegmentedTabs<K extends string>({
   value,
   onChange,
   leading,
+  showIcons = true,
 }: {
   items: TabItem<K>[];
   value: K;
   onChange: (k: K) => void;
   leading?: React.ReactNode;
+  showIcons?: boolean;
 }) {
   return (
     <View style={styles.row} accessibilityRole="tablist">
@@ -36,7 +38,7 @@ export function SegmentedTabs<K extends string>({
             onPress={() => onChange(it.key)}
             style={[styles.tab, { backgroundColor: active ? colors.primary : colors.darkTab }]}
           >
-            <Ionicons name={it.icon ?? (active ? 'chevron-down' : 'chevron-forward')} size={16} color={colors.white} />
+            {showIcons && <Ionicons name={it.icon ?? (active ? 'chevron-down' : 'chevron-forward')} size={16} color={colors.white} />}
             <Text style={styles.label} numberOfLines={1}>
               {it.label}
             </Text>

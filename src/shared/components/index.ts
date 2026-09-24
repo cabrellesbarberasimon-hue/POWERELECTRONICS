@@ -8,3 +8,7 @@ export * from './Toast';
 export * from './Typography';
 export * from './Widgets';
 export * from './Media';
+export * from './Annotation';
+export * from './Scenes';
+export * from './CameraBackdrop';
+export * from './Model3D';

@@ -155,6 +155,7 @@ const en = {
     publishTo: 'Published to Community and Social Media',
     motionScanFuture: 'Motion-scan avatars from your own movement are planned for a future version.',
     mediaType: 'Format',
+    photo: 'Photo',
   },
   social: {
     title: 'Social Media',
