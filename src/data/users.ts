@@ -1,0 +1,33 @@
+import type { User } from '@/types/domain';
+
+/**
+ * Demo accounts (password for all: "sense"):
+ *  - trainee     → employee in training
+ *  - technician  → SAT field technician (Assistance view)
+ *  - instructor  → instructor / evaluator (stars, calls, corporate content)
+ *  - admin       → administrator (users, challenges, licence)
+ * The rest are colleagues taken from the mockups (Figure 3.2) and other
+ * Power Electronics locations.
+ */
+export const DEMO_PASSWORD = 'sense';
+
+export const users: User[] = [
+  { id: 'u-trainee', username: 'trainee', name: 'Daniel Moreno', role: 'employee', department: 'SAT', country: 'Spain', countryCode: 'ES', avatarColor: '#1E88C4', online: true, joinedAt: '2026-07-01' },
+  { id: 'u-tech', username: 'technician', name: 'Emily Carter', role: 'sat', department: 'SAT', country: 'United Kingdom', countryCode: 'GB', avatarColor: '#8E44AD', online: true, joinedAt: '2023-03-14' },
+  { id: 'u-instructor', username: 'instructor', name: 'Pedro Sánchez', role: 'instructor', department: 'Training', country: 'Spain', countryCode: 'ES', avatarColor: '#FE6320', online: true, joinedAt: '2016-09-01' },
+  { id: 'u-admin', username: 'admin', name: 'Marta Ibáñez', role: 'admin', department: 'HR', country: 'Spain', countryCode: 'ES', avatarColor: '#06205B', online: true, joinedAt: '2014-02-10' },
+  { id: 'u-roberto', username: 'rsalas', name: 'Roberto Salas', role: 'instructor', department: 'SAT', country: 'Spain', countryCode: 'ES', avatarColor: '#16A085', online: true, joinedAt: '2015-05-04' },
+  { id: 'u-julia', username: 'jdiaz', name: 'Julia Díaz', role: 'sat', department: 'SAT', country: 'USA', countryCode: 'US', avatarColor: '#C0392B', online: true, joinedAt: '2019-11-20' },
+  { id: 'u-jose', username: 'jcastillo', name: 'José Castillo', role: 'sat', department: 'SAT', country: 'Spain', countryCode: 'ES', avatarColor: '#2C3E50', online: true, joinedAt: '2020-01-13' },
+  { id: 'u-sol', username: 'srodriguez', name: 'Sol Rodríguez', role: 'sat', department: 'SAT', country: 'Spain', countryCode: 'ES', avatarColor: '#D35400', online: true, joinedAt: '2021-06-07' },
+  { id: 'u-hugo', username: 'hperalta', name: 'Hugo Peralta', role: 'sat', department: 'SAT', country: 'Canada', countryCode: 'CA', avatarColor: '#27AE60', online: true, joinedAt: '2022-04-18' },
+  { id: 'u-raul', username: 'rvaldes', name: 'Raúl Valdés', role: 'sat', department: 'SAT', country: 'USA', countryCode: 'US', avatarColor: '#7F8C8D', online: false, joinedAt: '2018-08-29' },
+  { id: 'u-frank', username: 'fhuerta', name: 'Frank Huerta', role: 'sat', department: 'SAT', country: 'Spain', countryCode: 'ES', avatarColor: '#34495E', online: false, joinedAt: '2017-10-02' },
+  { id: 'u-jorge', username: 'jrodriguez', name: 'Jorge Rodríguez', role: 'sat', department: 'SAT', country: 'Mexico', countryCode: 'MX', avatarColor: '#2980B9', online: true, joinedAt: '2020-09-15' },
+  { id: 'u-lucia', username: 'lmendoza', name: 'Lucía Mendoza', role: 'sat', department: 'SAT', country: 'Chile', countryCode: 'CL', avatarColor: '#E91E63', online: false, joinedAt: '2021-02-01' },
+  { id: 'u-lorena', username: 'ldiaz', name: 'Lorena Díaz', role: 'employee', department: 'Engineering', country: 'Australia', countryCode: 'AU', avatarColor: '#9B59B6', online: true, joinedAt: '2024-05-20' },
+  { id: 'u-oliver', username: 'ohughes', name: 'Oliver Hughes', role: 'sat', department: 'SAT', country: 'United Kingdom', countryCode: 'GB', avatarColor: '#1ABC9C', online: true, joinedAt: '2022-11-03' },
+  { id: 'u-priya', username: 'pnair', name: 'Priya Nair', role: 'employee', department: 'Engineering', country: 'India', countryCode: 'IN', avatarColor: '#F39C12', online: false, joinedAt: '2025-01-27' },
+  { id: 'u-wei', username: 'wchen', name: 'Wei Chen', role: 'employee', department: 'Production', country: 'China', countryCode: 'CN', avatarColor: '#E74C3C', online: true, joinedAt: '2023-07-10' },
+  { id: 'u-marco', username: 'mrossi', name: 'Marco Rossi', role: 'sat', department: 'SAT', country: 'Italy', countryCode: 'IT', avatarColor: '#3F51B5', online: false, joinedAt: '2022-02-14' },
+];
