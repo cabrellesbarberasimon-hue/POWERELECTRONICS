@@ -163,7 +163,7 @@ export function MediaView({ media, style, large }: { media: Media; style?: Style
       {media.uri ? <Image source={{ uri: media.uri }} style={StyleSheet.absoluteFill} resizeMode="cover" /> : <PanelPattern dark={dark} />}
       {media.avatarId && (
         <View style={styles.mediaAvatar}>
-          <AvatarCharacter id={media.avatarId} height={large ? 300 : 120} />
+          <AvatarCharacter id={media.avatarId} height={large ? 300 : 96} />
         </View>
       )}
       {media.kind === 'audio' ? (
