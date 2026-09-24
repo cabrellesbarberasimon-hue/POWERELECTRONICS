@@ -11,6 +11,8 @@ describe('mock services', () => {
   it('signs in demo users with the shared password', async () => {
     await expect(api.auth.signIn('trainee', 'sense')).resolves.toMatchObject({ id: 'u-trainee' });
     await expect(api.auth.signIn('trainee', 'nope')).rejects.toThrow('invalid_credentials');
+    // Mobile keyboards: capitalised first letter, trailing space, capitalised username.
+    await expect(api.auth.signIn('Trainee ', 'Sense ')).resolves.toMatchObject({ id: 'u-trainee' });
   });
 
   it('keeps star ratings private', async () => {

@@ -106,6 +106,9 @@ export default function Login() {
             value={password}
             onChangeText={setPassword}
             secureTextEntry
+            autoCapitalize="none"
+            autoCorrect={false}
+            autoComplete="password"
             style={styles.input}
             onSubmitEditing={() => submit()}
             accessibilityLabel={t('auth.password')}

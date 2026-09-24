@@ -46,7 +46,8 @@ export const mockServices: Services = {
     async signIn(username, password) {
       await latency(300);
       const user = getDb().users.find((u) => u.username.toLowerCase() === username.trim().toLowerCase());
-      if (!user || password !== DEMO_PASSWORD) throw new Error('invalid_credentials');
+      // Mobile keyboards often capitalise or append a space: normalise the demo password.
+      if (!user || password.trim().toLowerCase() !== DEMO_PASSWORD) throw new Error('invalid_credentials');
       return copy(user);
     },
     async getUser(id) {
