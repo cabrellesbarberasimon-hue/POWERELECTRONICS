@@ -23,7 +23,11 @@ export default function SocialFeed() {
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <View style={[styles.top, { paddingTop: insets.top + spacing.sm }]}>
-        <HeaderIcon icon="person" label={t('social.profile')} onPress={() => router.push({ pathname: '/social/profile/[id]', params: { id: user.id } })} />
+        <HeaderIcon
+          icon="person"
+          label={t('social.profile')}
+          onPress={() => router.push({ pathname: '/social/profile/[id]', params: { id: user.id } })}
+        />
         <HeaderIcon icon="trophy" label={t('social.challenges')} onPress={() => router.push('/social/challenges')} />
         <HeaderIcon icon="podium" label={t('social.ranking')} onPress={() => router.push('/social/ranking')} />
         <View style={{ flex: 1 }} />
@@ -92,12 +96,20 @@ function FeedItem({ post, height, first }: { post: Post; height: number; first: 
         )}
 
         <View style={styles.actions}>
-          <Pressable onPress={() => router.push({ pathname: '/social/profile/[id]', params: { id: post.authorId } })} accessibilityRole="button" accessibilityLabel={author?.name}>
+          <Pressable
+            onPress={() => router.push({ pathname: '/social/profile/[id]', params: { id: post.authorId } })}
+            accessibilityRole="button"
+            accessibilityLabel={author?.name}
+          >
             <Avatar user={author} size={46} ring />
           </Pressable>
           <ActionButton icon="heart" label={String(reactionCount(post))} onPress={() => setTray((v) => !v)} />
           <ActionButton icon="add" label={t('common.publish')} onPress={() => router.push('/create-post')} testID="feed-create" />
-          <ActionButton icon="chatbubble-ellipses" label={String(post.comments.length)} onPress={() => router.push({ pathname: '/social/post/[id]', params: { id: post.id } })} />
+          <ActionButton
+            icon="chatbubble-ellipses"
+            label={String(post.comments.length)}
+            onPress={() => router.push({ pathname: '/social/post/[id]', params: { id: post.id } })}
+          />
           <ActionButton
             icon="arrow-redo"
             label={String(post.shares)}
@@ -113,7 +125,17 @@ function FeedItem({ post, height, first }: { post: Post; height: number; first: 
   );
 }
 
-function ActionButton({ icon, label, onPress, testID }: { icon: keyof typeof Ionicons.glyphMap; label: string; onPress: () => void; testID?: string }) {
+function ActionButton({
+  icon,
+  label,
+  onPress,
+  testID,
+}: {
+  icon: keyof typeof Ionicons.glyphMap;
+  label: string;
+  onPress: () => void;
+  testID?: string;
+}) {
   return (
     <Pressable onPress={onPress} style={styles.action} accessibilityRole="button" accessibilityLabel={`${icon} ${label}`} testID={testID}>
       <View style={styles.actionCircle}>
@@ -127,19 +149,58 @@ function ActionButton({ icon, label, onPress, testID }: { icon: keyof typeof Ion
 }
 
 const styles = StyleSheet.create({
-  top: { backgroundColor: colors.primary, flexDirection: 'row', alignItems: 'center', paddingHorizontal: spacing.md, paddingBottom: spacing.sm, gap: spacing.sm },
+  top: {
+    backgroundColor: colors.primary,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: spacing.md,
+    paddingBottom: spacing.sm,
+    gap: spacing.sm,
+  },
   card: { flex: 1, borderRadius: radius.xl, overflow: 'hidden', backgroundColor: colors.surface },
   swipe: { position: 'absolute', top: '22%', alignSelf: 'center', alignItems: 'center' },
   swipeText: { color: colors.white, fontFamily: fonts.medium, fontSize: fontSize.xs, marginTop: 4 },
-  info: { position: 'absolute', left: spacing.lg, right: spacing.lg, bottom: 150, backgroundColor: 'rgba(6,32,91,0.55)', borderRadius: radius.lg, padding: spacing.md },
+  info: {
+    position: 'absolute',
+    left: spacing.lg,
+    right: spacing.lg,
+    bottom: 150,
+    backgroundColor: 'rgba(6,32,91,0.55)',
+    borderRadius: radius.lg,
+    padding: spacing.md,
+  },
   title: { color: colors.white, fontFamily: fonts.bold, fontSize: fontSize.lg },
   body: { color: colors.white, fontFamily: fonts.regular, fontSize: fontSize.sm, marginTop: 2 },
   meta: { color: 'rgba(255,255,255,0.8)', fontFamily: fonts.regular, fontSize: 11, marginTop: 6 },
   tags: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 4 },
   tag: { color: '#BFE3F7', fontFamily: fonts.medium, fontSize: 11 },
   tray: { position: 'absolute', left: spacing.lg, bottom: 96 },
-  actions: { position: 'absolute', bottom: spacing.md, left: spacing.sm, right: spacing.sm, flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-around' },
+  actions: {
+    position: 'absolute',
+    bottom: spacing.md,
+    left: spacing.sm,
+    right: spacing.sm,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-around',
+  },
   action: { alignItems: 'center', width: 56 },
-  actionCircle: { width: 46, height: 46, borderRadius: 23, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center', borderWidth: 2, borderColor: colors.white },
-  actionLabel: { color: colors.white, fontFamily: fonts.semibold, fontSize: 10, marginTop: 2, textShadowColor: 'rgba(0,0,0,0.6)', textShadowRadius: 3 },
+  actionCircle: {
+    width: 46,
+    height: 46,
+    borderRadius: 23,
+    backgroundColor: colors.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: colors.white,
+  },
+  actionLabel: {
+    color: colors.white,
+    fontFamily: fonts.semibold,
+    fontSize: 10,
+    marginTop: 2,
+    textShadowColor: 'rgba(0,0,0,0.6)',
+    textShadowRadius: 3,
+  },
 });

@@ -42,17 +42,32 @@ export default function CallHome() {
           <Text style={styles.number}>{number || ' '}</Text>
           <View style={styles.keys}>
             {KEYS.map((k) => (
-              <Pressable key={k} style={styles.key} onPress={() => setNumber((n) => n + k)} accessibilityRole="button" accessibilityLabel={k}>
+              <Pressable
+                key={k}
+                style={styles.key}
+                onPress={() => setNumber((n) => n + k)}
+                accessibilityRole="button"
+                accessibilityLabel={k}
+              >
                 <Text style={styles.keyText}>{k}</Text>
               </Pressable>
             ))}
           </View>
           <View style={styles.keyActions}>
             <View style={{ width: 56 }} />
-            <Pressable style={styles.callBtn} onPress={() => number && call('u-roberto', 'audio')} accessibilityRole="button" accessibilityLabel={t('call.audio')}>
+            <Pressable
+              style={styles.callBtn}
+              onPress={() => number && call('u-roberto', 'audio')}
+              accessibilityRole="button"
+              accessibilityLabel={t('call.audio')}
+            >
               <Ionicons name="call" size={30} color={colors.white} />
             </Pressable>
-            <Pressable style={{ width: 56, alignItems: 'center' }} onPress={() => setNumber((n) => n.slice(0, -1))} accessibilityLabel="delete">
+            <Pressable
+              style={{ width: 56, alignItems: 'center' }}
+              onPress={() => setNumber((n) => n.slice(0, -1))}
+              accessibilityLabel="delete"
+            >
               <Ionicons name="backspace-outline" size={28} color={colors.textMuted} />
             </Pressable>
           </View>
@@ -72,10 +87,19 @@ export default function CallHome() {
                   {u.department} | {u.country} · {u.online ? t('common.online') : t('common.offline')}
                 </Text>
               </View>
-              <Pressable style={[styles.round, { backgroundColor: colors.green }]} onPress={() => call(u.id, 'audio')} accessibilityLabel={`${t('call.audio')} ${u.name}`}>
+              <Pressable
+                style={[styles.round, { backgroundColor: colors.green }]}
+                onPress={() => call(u.id, 'audio')}
+                accessibilityLabel={`${t('call.audio')} ${u.name}`}
+              >
                 <Ionicons name="call" size={16} color={colors.white} />
               </Pressable>
-              <Pressable testID={`video-${u.id}`} style={[styles.round, { backgroundColor: colors.primary }]} onPress={() => call(u.id, 'video')} accessibilityLabel={`${t('call.videoCall')} ${u.name}`}>
+              <Pressable
+                testID={`video-${u.id}`}
+                style={[styles.round, { backgroundColor: colors.primary }]}
+                onPress={() => call(u.id, 'video')}
+                accessibilityLabel={`${t('call.videoCall')} ${u.name}`}
+              >
                 <Ionicons name="videocam" size={16} color={colors.white} />
               </Pressable>
             </View>
@@ -91,12 +115,36 @@ const styles = StyleSheet.create({
   keypad: { alignItems: 'center', padding: spacing.xl },
   number: { fontFamily: fonts.medium, fontSize: 30, color: colors.text, letterSpacing: 2, marginBottom: spacing.lg, minHeight: 40 },
   keys: { flexDirection: 'row', flexWrap: 'wrap', width: 270, justifyContent: 'space-between', rowGap: spacing.lg },
-  key: { width: 74, height: 74, borderRadius: 37, borderWidth: 2, borderColor: colors.primary, alignItems: 'center', justifyContent: 'center' },
+  key: {
+    width: 74,
+    height: 74,
+    borderRadius: 37,
+    borderWidth: 2,
+    borderColor: colors.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   keyText: { fontFamily: fonts.semibold, fontSize: 28, color: colors.primary },
   keyActions: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: 270, marginTop: spacing.xl },
   callBtn: { width: 72, height: 72, borderRadius: 36, backgroundColor: colors.green, alignItems: 'center', justifyContent: 'center' },
-  search: { flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: colors.border, borderRadius: radius.pill, paddingHorizontal: spacing.md, height: 40, marginBottom: spacing.md },
-  contact: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, paddingVertical: spacing.sm, borderBottomWidth: 1, borderColor: '#F0F0F0' },
+  search: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: radius.pill,
+    paddingHorizontal: spacing.md,
+    height: 40,
+    marginBottom: spacing.md,
+  },
+  contact: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
+    paddingVertical: spacing.sm,
+    borderBottomWidth: 1,
+    borderColor: '#F0F0F0',
+  },
   name: { fontFamily: fonts.semibold, fontSize: fontSize.sm, color: colors.text },
   meta: { fontFamily: fonts.regular, fontSize: 11, color: colors.textMuted },
   round: { width: 34, height: 34, borderRadius: 17, alignItems: 'center', justifyContent: 'center' },

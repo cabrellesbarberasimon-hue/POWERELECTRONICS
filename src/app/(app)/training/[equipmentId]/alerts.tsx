@@ -38,7 +38,8 @@ function AlertCard({ alert }: { alert: Alert }) {
 
   const video = () => {
     for (const c of courses.data ?? []) {
-      const step = allSteps(c).find((s) => s.partId === alert.partId && s.type === 'video') ?? allSteps(c).find((s) => s.partId === alert.partId);
+      const step =
+        allSteps(c).find((s) => s.partId === alert.partId && s.type === 'video') ?? allSteps(c).find((s) => s.partId === alert.partId);
       if (step) return router.push({ pathname: '/university/lesson/[courseId]/[stepId]', params: { courseId: c.id, stepId: step.id } });
     }
     toast(t('common.empty'));
@@ -48,7 +49,9 @@ function AlertCard({ alert }: { alert: Alert }) {
     <View style={[styles.card, alert.resolved && { opacity: 0.55 }]}>
       <View style={[styles.banner, { backgroundColor: urgent ? '#F8D7D7' : '#FFF1C2' }]}>
         <Ionicons name={urgent ? 'alert-circle' : 'warning'} size={20} color={urgent ? colors.red : '#B7791F'} />
-        <Text style={[styles.bannerText, { color: urgent ? colors.red : '#8A5A00' }]}>{alert.resolved ? t('assistance.resolved') : tr(alert.title)}</Text>
+        <Text style={[styles.bannerText, { color: urgent ? colors.red : '#8A5A00' }]}>
+          {alert.resolved ? t('assistance.resolved') : tr(alert.title)}
+        </Text>
       </View>
       <View style={{ padding: spacing.lg, gap: spacing.md }}>
         <Text style={styles.trigger}>/{tr(alert.trigger)}</Text>
@@ -60,7 +63,17 @@ function AlertCard({ alert }: { alert: Alert }) {
         <Text style={styles.params}>{t('training.parameters')}</Text>
         <ParameterGrid params={alert.parameters} columns={3} />
         <View style={styles.buttons}>
-          <Pressable style={styles.square} onPress={() => router.push({ pathname: '/training/[equipmentId]', params: { equipmentId: alert.equipmentId, part: alert.partId, tab: 'training' } })} accessibilityRole="button" accessibilityLabel={t('assistance.view3d')}>
+          <Pressable
+            style={styles.square}
+            onPress={() =>
+              router.push({
+                pathname: '/training/[equipmentId]',
+                params: { equipmentId: alert.equipmentId, part: alert.partId, tab: 'training' },
+              })
+            }
+            accessibilityRole="button"
+            accessibilityLabel={t('assistance.view3d')}
+          >
             <Ionicons name="cube-outline" size={30} color={colors.primary} />
           </Pressable>
           <Pressable style={styles.square} onPress={video} accessibilityRole="button" accessibilityLabel={t('assistance.video')}>
@@ -68,7 +81,12 @@ function AlertCard({ alert }: { alert: Alert }) {
           </Pressable>
         </View>
         {canResolve && !alert.resolved && (
-          <GhostButton label={t('assistance.resolve')} icon="checkmark-done" onPress={() => resolve.mutate(alert.id, { onSuccess: () => toast(t('assistance.resolved'), 'success') })} loading={resolve.isPending} />
+          <GhostButton
+            label={t('assistance.resolve')}
+            icon="checkmark-done"
+            onPress={() => resolve.mutate(alert.id, { onSuccess: () => toast(t('assistance.resolved'), 'success') })}
+            loading={resolve.isPending}
+          />
         )}
       </View>
     </View>
@@ -76,15 +94,37 @@ function AlertCard({ alert }: { alert: Alert }) {
 }
 
 const styles = StyleSheet.create({
-  card: { borderRadius: radius.lg, overflow: 'hidden', backgroundColor: colors.white, borderWidth: 1, borderColor: colors.border, marginBottom: spacing.lg },
+  card: {
+    borderRadius: radius.lg,
+    overflow: 'hidden',
+    backgroundColor: colors.white,
+    borderWidth: 1,
+    borderColor: colors.border,
+    marginBottom: spacing.lg,
+  },
   banner: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.sm, paddingVertical: spacing.md },
   bannerText: { fontFamily: fonts.semibold, fontSize: fontSize.md },
-  trigger: { fontFamily: fonts.regular, fontSize: fontSize.md, color: colors.textMuted, borderBottomWidth: 1, borderColor: colors.border, paddingBottom: 4 },
+  trigger: {
+    fontFamily: fonts.regular,
+    fontSize: fontSize.md,
+    color: colors.textMuted,
+    borderBottomWidth: 1,
+    borderColor: colors.border,
+    paddingBottom: 4,
+  },
   desc: { flexDirection: 'row', gap: spacing.sm, backgroundColor: '#E5E5E5', padding: spacing.md },
   dot: { width: 12, height: 12, borderRadius: 6, marginTop: 4 },
   descText: { flex: 1, fontFamily: fonts.regular, fontSize: fontSize.md, color: colors.text },
   meta: { fontFamily: fonts.regular, fontSize: fontSize.xs, color: colors.textMuted },
   params: { fontFamily: fonts.semibold, fontSize: fontSize.lg, color: colors.text, textAlign: 'center' },
   buttons: { flexDirection: 'row', justifyContent: 'center', gap: spacing.lg },
-  square: { width: 64, height: 56, borderRadius: radius.lg, borderWidth: 2, borderColor: colors.primary, alignItems: 'center', justifyContent: 'center' },
+  square: {
+    width: 64,
+    height: 56,
+    borderRadius: radius.lg,
+    borderWidth: 2,
+    borderColor: colors.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });

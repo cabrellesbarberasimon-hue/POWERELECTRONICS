@@ -9,25 +9,17 @@ export interface ChallengeProgress {
 }
 
 /** Measures a user's progress towards a challenge goal within its period. */
-export function challengeProgress(
-  challenge: Challenge,
-  userId: string,
-  data: ScoringInput & { courses: Course[] },
-): ChallengeProgress {
+export function challengeProgress(challenge: Challenge, userId: string, data: ScoringInput & { courses: Course[] }): ChallengeProgress {
   const inPeriod = (iso: string) => iso >= challenge.startsAt && iso <= challenge.endsAt;
   const { goal } = challenge;
   let current = 0;
 
   switch (goal.type) {
     case 'publish':
-      current = data.posts.filter(
-        (p) => p.authorId === userId && inPeriod(p.createdAt) && (!goal.tag || p.tags.includes(goal.tag)),
-      ).length;
+      current = data.posts.filter((p) => p.authorId === userId && inPeriod(p.createdAt) && (!goal.tag || p.tags.includes(goal.tag))).length;
       break;
     case 'reactions':
-      current = data.posts
-        .filter((p) => p.authorId === userId && inPeriod(p.createdAt))
-        .reduce((acc, p) => acc + reactionCount(p), 0);
+      current = data.posts.filter((p) => p.authorId === userId && inPeriod(p.createdAt)).reduce((acc, p) => acc + reactionCount(p), 0);
       break;
     case 'complete_steps': {
       const tagged = new Set(
@@ -41,9 +33,7 @@ export function challengeProgress(
       break;
     }
     case 'training':
-      current = data.trainingSessions.filter(
-        (s) => s.userId === userId && s.finishedAt && inPeriod(s.finishedAt),
-      ).length;
+      current = data.trainingSessions.filter((s) => s.userId === userId && s.finishedAt && inPeriod(s.finishedAt)).length;
       break;
   }
 

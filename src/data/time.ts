@@ -6,8 +6,7 @@ export const daysAgo = (days: number, now = Date.now()) => new Date(now - days *
 /** ISO timestamp `days` days after now. */
 export const daysFromNow = (days: number, now = Date.now()) => new Date(now + days * DAY).toISOString();
 
-export const monthKey = (date = new Date()) =>
-  `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+export const monthKey = (date = new Date()) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
 
 export function periodBounds(period: 'monthly' | 'quarterly' | 'annual', now = new Date()) {
   const y = now.getFullYear();

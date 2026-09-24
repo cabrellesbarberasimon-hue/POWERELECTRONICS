@@ -2,6 +2,7 @@ import { createSeed } from '@/data/seed';
 import { mockServices as api } from '@/services/mock';
 import { __setDb } from '@/services/mock/db';
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- jest.mock factories must be synchronous
 jest.mock('@react-native-async-storage/async-storage', () => require('@react-native-async-storage/async-storage/jest/async-storage-mock'));
 
 beforeEach(() => __setDb(createSeed()));

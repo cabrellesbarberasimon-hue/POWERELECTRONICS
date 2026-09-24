@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { Animated, StyleSheet, Text } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { create } from 'zustand';
@@ -23,7 +23,7 @@ export const toast = (message: string, tone?: ToastState['tone']) => useToast.ge
 /** Global toast host mounted once in the root layout. */
 export function ToastHost() {
   const { message, tone, id } = useToast();
-  const opacity = useRef(new Animated.Value(0)).current;
+  const [opacity] = useState(() => new Animated.Value(0));
   const insets = useSafeAreaInsets();
 
   useEffect(() => {

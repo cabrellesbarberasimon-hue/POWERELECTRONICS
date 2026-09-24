@@ -22,7 +22,13 @@ export default function Challenges() {
           <Chip key={p} label={t(`social.period.${p}`)} active={period === p} onPress={() => setPeriod(p)} />
         ))}
       </View>
-      {!challenges.data ? <Loading /> : list.length === 0 ? <EmptyState text={t('common.empty')} icon="trophy-outline" /> : list.map((c) => <ChallengeCard key={c.id} challenge={c} />)}
+      {!challenges.data ? (
+        <Loading />
+      ) : list.length === 0 ? (
+        <EmptyState text={t('common.empty')} icon="trophy-outline" />
+      ) : (
+        list.map((c) => <ChallengeCard key={c.id} challenge={c} />)
+      )}
     </Screen>
   );
 }

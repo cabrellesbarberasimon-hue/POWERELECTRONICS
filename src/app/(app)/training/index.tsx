@@ -54,8 +54,18 @@ function EquipmentCard({ equipment }: { equipment: Equipment }) {
           • {tr(p.title)} ({p.steps.length})
         </Text>
       ))}
-      <CTAButton testID="scan-equipment" icon="scan" label={t('training.scan')} onPress={() => router.push({ pathname: '/training/[equipmentId]', params: { equipmentId: equipment.id } })} />
-      <OutlineButton testID="demo-equipment" icon="image-outline" label={t('training.demoMode')} onPress={() => router.push({ pathname: '/training/[equipmentId]', params: { equipmentId: equipment.id, demo: '1' } })} />
+      <CTAButton
+        testID="scan-equipment"
+        icon="scan"
+        label={t('training.scan')}
+        onPress={() => router.push({ pathname: '/training/[equipmentId]', params: { equipmentId: equipment.id } })}
+      />
+      <OutlineButton
+        testID="demo-equipment"
+        icon="image-outline"
+        label={t('training.demoMode')}
+        onPress={() => router.push({ pathname: '/training/[equipmentId]', params: { equipmentId: equipment.id, demo: '1' } })}
+      />
     </Card>
   );
 }
@@ -63,10 +73,24 @@ function EquipmentCard({ equipment }: { equipment: Equipment }) {
 const styles = StyleSheet.create({
   hero: { alignItems: 'center', gap: spacing.sm, marginBottom: spacing.xl },
   heroText: { fontFamily: fonts.medium, fontSize: fontSize.md, color: colors.textMuted },
-  preview: { alignItems: 'center', backgroundColor: colors.surfaceAlt, borderRadius: radius.md, paddingVertical: spacing.md, overflow: 'hidden' },
+  preview: {
+    alignItems: 'center',
+    backgroundColor: colors.surfaceAlt,
+    borderRadius: radius.md,
+    paddingVertical: spacing.md,
+    overflow: 'hidden',
+  },
   row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   name: { fontFamily: fonts.bold, fontSize: fontSize.xl, color: colors.navy },
-  alerts: { flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: colors.red, borderRadius: radius.pill, paddingHorizontal: 8, paddingVertical: 2 },
+  alerts: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: colors.red,
+    borderRadius: radius.pill,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+  },
   alertsText: { color: colors.white, fontFamily: fonts.semibold, fontSize: 11 },
   meta: { fontFamily: fonts.regular, fontSize: fontSize.xs, color: colors.textMuted, marginTop: -8 },
   desc: { fontFamily: fonts.regular, fontSize: fontSize.sm, color: colors.text },

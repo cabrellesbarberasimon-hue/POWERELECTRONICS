@@ -1,5 +1,5 @@
 import { Redirect } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { StyleSheet, Text, TextInput, useWindowDimensions, View } from 'react-native';
 import { economicModel } from '@/data/admin';
 import { useLicense, useSetEmployees, useUpdateTierPrice } from '@/hooks/api';
@@ -19,20 +19,18 @@ export default function License() {
   const license = useLicense();
   const updatePrice = useUpdateTierPrice();
   const setEmployees = useSetEmployees();
-  const [employees, setEmployeesText] = useState('');
-
-  useEffect(() => {
-    if (license.data) setEmployeesText(String(license.data.license.employees));
-  }, [license.data]);
+  const [draft, setEmployeesText] = useState<string | undefined>();
 
   if (me.role !== 'admin') return <Redirect href="/admin" />;
   if (!license.data) return <Loading />;
   const { tiers, license: lic } = license.data;
+  const employees = draft ?? String(lic.employees);
   const current = tiers.find((x) => x.id === lic.tierId)!;
   const large = tiers.find((x) => x.id === 'large')!;
   const rows = projection({ ...economicModel, monthlyEur: large.monthlyEur });
   const be = breakEven(rows);
-  const range = (tier: LicenseTier) => (tier.maxEmployees === null ? `> ${tier.minEmployees}` : `${tier.minEmployees}–${tier.maxEmployees}`);
+  const range = (tier: LicenseTier) =>
+    tier.maxEmployees === null ? `> ${tier.minEmployees}` : `${tier.minEmployees}–${tier.maxEmployees}`;
 
   return (
     <Screen header={<Header title={t('admin.license')} />}>
@@ -66,7 +64,13 @@ export default function License() {
 
       <SectionTitle>{t('admin.tiers')}</SectionTitle>
       {tiers.map((tier) => (
-        <TierRow key={tier.id} tier={tier} active={tier.id === current.id} label={range(tier)} onSave={(v) => updatePrice.mutate({ tierId: tier.id, monthlyEur: v })} />
+        <TierRow
+          key={tier.id}
+          tier={tier}
+          active={tier.id === current.id}
+          label={range(tier)}
+          onSave={(v) => updatePrice.mutate({ tierId: tier.id, monthlyEur: v })}
+        />
       ))}
       <Text style={styles.note}>{t('admin.placeholderPrices')}</Text>
 
@@ -106,7 +110,15 @@ function TierRow({ tier, active, label, onSave }: { tier: LicenseTier; active: b
   return (
     <View style={[styles.tier, active && styles.tierOn]}>
       <Text style={styles.tierRange}>{label}</Text>
-      <TextInput value={value} onChangeText={setValue} onEndEditing={commit} onBlur={commit} keyboardType="number-pad" style={[styles.input, { width: 90 }]} accessibilityLabel={`${label} €`} />
+      <TextInput
+        value={value}
+        onChangeText={setValue}
+        onEndEditing={commit}
+        onBlur={commit}
+        keyboardType="number-pad"
+        style={[styles.input, { width: 90 }]}
+        accessibilityLabel={`${label} €`}
+      />
       <Text style={styles.muted}>{t('admin.perMonth')}</Text>
     </View>
   );
@@ -118,8 +130,26 @@ const styles = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   label: { fontFamily: fonts.regular, fontSize: fontSize.sm, color: colors.textMuted },
   value: { fontFamily: fonts.semibold, fontSize: fontSize.md, color: colors.text },
-  input: { borderWidth: 1, borderColor: colors.border, borderRadius: radius.sm, paddingHorizontal: spacing.sm, height: 36, minWidth: 90, textAlign: 'right', fontFamily: fonts.medium },
-  tier: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, padding: spacing.md, borderRadius: radius.md, borderWidth: 1, borderColor: colors.border, marginBottom: spacing.sm },
+  input: {
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: radius.sm,
+    paddingHorizontal: spacing.sm,
+    height: 36,
+    minWidth: 90,
+    textAlign: 'right',
+    fontFamily: fonts.medium,
+  },
+  tier: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
+    padding: spacing.md,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.border,
+    marginBottom: spacing.sm,
+  },
   tierOn: { borderColor: colors.primary, backgroundColor: colors.primarySoft },
   tierRange: { flex: 1, fontFamily: fonts.semibold, fontSize: fontSize.md, color: colors.text },
   muted: { fontFamily: fonts.regular, fontSize: fontSize.xs, color: colors.textMuted },
@@ -128,6 +158,14 @@ const styles = StyleSheet.create({
   table: { borderWidth: 1, borderColor: colors.border, borderRadius: radius.md, overflow: 'hidden' },
   tr: { flexDirection: 'row', borderBottomWidth: 1, borderColor: '#F0F0F0' },
   th: { backgroundColor: colors.surfaceAlt },
-  td: { flex: 1, paddingVertical: 6, paddingHorizontal: 4, fontFamily: fonts.regular, fontSize: 11, color: colors.text, textAlign: 'center' },
+  td: {
+    flex: 1,
+    paddingVertical: 6,
+    paddingHorizontal: 4,
+    fontFamily: fonts.regular,
+    fontSize: 11,
+    color: colors.text,
+    textAlign: 'center',
+  },
   thText: { fontFamily: fonts.semibold, color: colors.textMuted },
 });

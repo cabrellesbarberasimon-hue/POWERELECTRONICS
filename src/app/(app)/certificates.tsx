@@ -56,7 +56,17 @@ export default function Certificates() {
 }
 
 const styles = StyleSheet.create({
-  cert: { flexDirection: 'row', gap: spacing.md, alignItems: 'center', padding: spacing.lg, borderRadius: radius.lg, borderWidth: 2, borderColor: colors.yellow, backgroundColor: '#FFFBEA', marginBottom: spacing.md },
+  cert: {
+    flexDirection: 'row',
+    gap: spacing.md,
+    alignItems: 'center',
+    padding: spacing.lg,
+    borderRadius: radius.lg,
+    borderWidth: 2,
+    borderColor: colors.yellow,
+    backgroundColor: '#FFFBEA',
+    marginBottom: spacing.md,
+  },
   certTitle: { fontFamily: fonts.semibold, fontSize: fontSize.md, color: colors.navy },
   certSub: { fontFamily: fonts.regular, fontSize: fontSize.xs, color: colors.textMuted },
   title: { fontFamily: fonts.semibold, fontSize: fontSize.md, color: colors.text },

@@ -33,7 +33,9 @@ describe('course progress', () => {
 
   it('aggregates level progress', () => {
     expect(levelPercent(courses, 'basic', [])).toBe(0);
-    expect(levelPercent(courses, 'advanced', [{ ...empty, courseId: 'c-grid', completedStepIds: ['grid-1', 'grid-2'] }])).toBeGreaterThan(0);
+    expect(levelPercent(courses, 'advanced', [{ ...empty, courseId: 'c-grid', completedStepIds: ['grid-1', 'grid-2'] }])).toBeGreaterThan(
+      0,
+    );
   });
 
   it('grades quizzes with a 70% pass mark', () => {

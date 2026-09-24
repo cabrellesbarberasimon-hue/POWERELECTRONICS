@@ -28,7 +28,13 @@ export default function History() {
         const tech = users.data?.find((u) => u.id === h.technicianId);
         const part = equipment.data!.parts.find((p) => p.id === h.partId);
         return (
-          <Pressable key={h.id} onPress={() => setOpen(expanded ? null : h.id)} style={[styles.item, expanded && styles.itemOpen]} accessibilityRole="button" accessibilityState={{ expanded }}>
+          <Pressable
+            key={h.id}
+            onPress={() => setOpen(expanded ? null : h.id)}
+            style={[styles.item, expanded && styles.itemOpen]}
+            accessibilityRole="button"
+            accessibilityState={{ expanded }}
+          >
             <View style={styles.row}>
               <View style={[styles.dot, { backgroundColor: SEV[h.severity] }]}>
                 <Text style={styles.dotText}>!</Text>
@@ -55,8 +61,22 @@ export default function History() {
 }
 
 const styles = StyleSheet.create({
-  family: { fontFamily: fonts.regular, fontSize: fontSize.md, color: colors.textMuted, padding: spacing.lg, borderBottomWidth: 1, borderColor: colors.border },
-  item: { paddingHorizontal: spacing.lg, paddingTop: spacing.md, paddingBottom: 4, backgroundColor: '#EDEDED', borderBottomWidth: 2, borderColor: colors.white },
+  family: {
+    fontFamily: fonts.regular,
+    fontSize: fontSize.md,
+    color: colors.textMuted,
+    padding: spacing.lg,
+    borderBottomWidth: 1,
+    borderColor: colors.border,
+  },
+  item: {
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.md,
+    paddingBottom: 4,
+    backgroundColor: '#EDEDED',
+    borderBottomWidth: 2,
+    borderColor: colors.white,
+  },
   itemOpen: { backgroundColor: '#E2E2E2' },
   row: { flexDirection: 'row', gap: spacing.sm },
   dot: { width: 14, height: 14, borderRadius: 7, alignItems: 'center', justifyContent: 'center', marginTop: 4 },

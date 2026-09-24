@@ -32,7 +32,11 @@ export default function Notifications() {
           {(['technical', 'maintenance', 'safety'] as const).map((tp) => (
             <Chip key={tp} label={t(`assistance.topic.${tp}`)} active={topic === tp} onPress={() => setTopic(tp)} />
           ))}
-          <Chip icon={order === 'newest' ? 'arrow-down' : 'arrow-up'} label={t(`assistance.${order}`)} onPress={() => setOrder((o) => (o === 'newest' ? 'oldest' : 'newest'))} />
+          <Chip
+            icon={order === 'newest' ? 'arrow-down' : 'arrow-up'}
+            label={t(`assistance.${order}`)}
+            onPress={() => setOrder((o) => (o === 'newest' ? 'oldest' : 'newest'))}
+          />
         </View>
         {!list.data ? (
           <Loading />
@@ -48,8 +52,16 @@ export default function Notifications() {
                 </View>
                 <View style={{ flex: 1, gap: 2 }}>
                   <Text style={styles.name}>{author?.name}</Text>
-                  <Text style={styles.kind}>{n.kind === 'video' ? t('assistance.videoMessage') : n.kind === 'voice' ? t('assistance.voiceMessage') : t('assistance.note')}</Text>
-                  <Text style={styles.meta}>{t('assistance.lastRevision', { date: formatDate(n.createdAt), time: formatTime(n.createdAt) })}</Text>
+                  <Text style={styles.kind}>
+                    {n.kind === 'video'
+                      ? t('assistance.videoMessage')
+                      : n.kind === 'voice'
+                        ? t('assistance.voiceMessage')
+                        : t('assistance.note')}
+                  </Text>
+                  <Text style={styles.meta}>
+                    {t('assistance.lastRevision', { date: formatDate(n.createdAt), time: formatTime(n.createdAt) })}
+                  </Text>
                   <Text style={styles.text}>{tr(n.text)}</Text>
                   {n.kind === 'voice' && <AudioWave durationSec={n.durationSec} compact />}
                   {n.kind === 'video' && <VideoBar durationSec={n.durationSec ?? 30} />}
@@ -63,16 +75,33 @@ export default function Notifications() {
       {fab && (
         <View style={styles.fabMenu}>
           {(['note', 'voice', 'video'] as const).map((k) => (
-            <Pressable key={k} style={styles.fabItem} onPress={() => { setFab(false); setCompose(k); }} accessibilityRole="button" accessibilityLabel={k}>
+            <Pressable
+              key={k}
+              style={styles.fabItem}
+              onPress={() => {
+                setFab(false);
+                setCompose(k);
+              }}
+              accessibilityRole="button"
+              accessibilityLabel={k}
+            >
               <View style={styles.fabSmall}>
                 <Ionicons name={k === 'note' ? 'create' : k === 'voice' ? 'mic' : 'videocam'} size={20} color={colors.white} />
               </View>
-              <Text style={styles.fabLabel}>{k === 'note' ? t('assistance.note') : k === 'voice' ? t('assistance.voice') : t('assistance.video')}</Text>
+              <Text style={styles.fabLabel}>
+                {k === 'note' ? t('assistance.note') : k === 'voice' ? t('assistance.voice') : t('assistance.video')}
+              </Text>
             </Pressable>
           ))}
         </View>
       )}
-      <Pressable testID="notif-add" style={styles.fab} onPress={() => setFab((f) => !f)} accessibilityRole="button" accessibilityLabel={t('assistance.newMessage')}>
+      <Pressable
+        testID="notif-add"
+        style={styles.fab}
+        onPress={() => setFab((f) => !f)}
+        accessibilityRole="button"
+        accessibilityLabel={t('assistance.newMessage')}
+      >
         <Ionicons name={fab ? 'close' : 'add'} size={30} color={colors.white} />
       </Pressable>
 
@@ -117,7 +146,14 @@ function Composer({ kind, equipmentId, onClose }: { kind: TeamNotification['kind
 
   const send = () =>
     add.mutate(
-      { equipmentId, authorId: user.id, kind, topic, text: text.trim() || (kind === 'voice' ? t('assistance.voiceMessage') : t('assistance.videoMessage')), durationSec: kind === 'note' ? undefined : Math.max(3, seconds) },
+      {
+        equipmentId,
+        authorId: user.id,
+        kind,
+        topic,
+        text: text.trim() || (kind === 'voice' ? t('assistance.voiceMessage') : t('assistance.videoMessage')),
+        durationSec: kind === 'note' ? undefined : Math.max(3, seconds),
+      },
       { onSuccess: onClose },
     );
 
@@ -153,7 +189,14 @@ function Composer({ kind, equipmentId, onClose }: { kind: TeamNotification['kind
 const styles = StyleSheet.create({
   filters: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, alignItems: 'center', marginBottom: spacing.lg },
   family: { fontFamily: fonts.regular, color: colors.textMuted, marginRight: spacing.sm },
-  card: { flexDirection: 'row', gap: spacing.md, backgroundColor: colors.surfaceAlt, borderRadius: radius.lg, padding: spacing.md, marginBottom: spacing.md },
+  card: {
+    flexDirection: 'row',
+    gap: spacing.md,
+    backgroundColor: colors.surfaceAlt,
+    borderRadius: radius.lg,
+    padding: spacing.md,
+    marginBottom: spacing.md,
+  },
   bang: { width: 48, height: 48, borderRadius: 24, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center' },
   bangText: { color: colors.white, fontFamily: fonts.bold, fontSize: 26 },
   name: { fontFamily: fonts.semibold, fontSize: fontSize.md, color: colors.primary },
@@ -161,16 +204,58 @@ const styles = StyleSheet.create({
   meta: { fontFamily: fonts.regular, fontSize: 10, color: colors.textMuted },
   text: { fontFamily: fonts.regular, fontSize: fontSize.sm, color: colors.text, marginVertical: 4 },
   video: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
-  fab: { position: 'absolute', alignSelf: 'center', bottom: spacing.xxl, width: 58, height: 58, borderRadius: 29, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center', elevation: 6, shadowColor: '#000', shadowOpacity: 0.25, shadowRadius: 6 },
-  fabMenu: { position: 'absolute', bottom: 110, alignSelf: 'center', flexDirection: 'row', gap: spacing.lg, backgroundColor: colors.white, borderRadius: radius.xl, padding: spacing.md, elevation: 6, shadowColor: '#000', shadowOpacity: 0.2, shadowRadius: 8 },
+  fab: {
+    position: 'absolute',
+    alignSelf: 'center',
+    bottom: spacing.xxl,
+    width: 58,
+    height: 58,
+    borderRadius: 29,
+    backgroundColor: colors.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 6,
+    shadowColor: '#000',
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+  },
+  fabMenu: {
+    position: 'absolute',
+    bottom: 110,
+    alignSelf: 'center',
+    flexDirection: 'row',
+    gap: spacing.lg,
+    backgroundColor: colors.white,
+    borderRadius: radius.xl,
+    padding: spacing.md,
+    elevation: 6,
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+  },
   fabItem: { alignItems: 'center', gap: 4 },
   fabSmall: { width: 44, height: 44, borderRadius: 22, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center' },
   fabLabel: { fontFamily: fonts.medium, fontSize: 11, color: colors.navy },
   sheetWrap: { flex: 1, justifyContent: 'flex-end', backgroundColor: 'rgba(0,0,0,0.35)' },
-  sheet: { backgroundColor: colors.white, borderTopLeftRadius: radius.xl, borderTopRightRadius: radius.xl, padding: spacing.lg, gap: spacing.md, paddingBottom: spacing.xxl },
+  sheet: {
+    backgroundColor: colors.white,
+    borderTopLeftRadius: radius.xl,
+    borderTopRightRadius: radius.xl,
+    padding: spacing.lg,
+    gap: spacing.md,
+    paddingBottom: spacing.xxl,
+  },
   sheetTitle: { fontFamily: fonts.semibold, fontSize: fontSize.lg },
   rec: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
   recDot: { width: 12, height: 12, borderRadius: 6, backgroundColor: colors.red },
   recText: { fontFamily: fonts.medium, color: colors.red },
-  input: { borderWidth: 1, borderColor: colors.border, borderRadius: radius.md, padding: spacing.md, minHeight: 80, textAlignVertical: 'top', fontFamily: fonts.regular },
+  input: {
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: radius.md,
+    padding: spacing.md,
+    minHeight: 80,
+    textAlignVertical: 'top',
+    fontFamily: fonts.regular,
+  },
 });

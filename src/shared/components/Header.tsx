@@ -23,9 +23,7 @@ export function Header({ title, home = true, back = true, onBack, right, breadcr
   const goBack = onBack ?? (() => (router.canGoBack() ? router.back() : router.replace('/home')));
   return (
     <View style={[styles.bar, { paddingTop: insets.top + spacing.sm }, variant === 'blue' ? styles.blue : styles.white]}>
-      {home && (
-        <HeaderIcon icon="home" color={fg} label="Home" onPress={() => router.dismissTo('/home')} />
-      )}
+      {home && <HeaderIcon icon="home" color={fg} label="Home" onPress={() => router.dismissTo('/home')} />}
       {back && <HeaderIcon icon="arrow-undo" color={fg} label="Back" onPress={goBack} />}
       <Text
         style={[styles.title, { color: fg }, breadcrumb && styles.breadcrumb, variant === 'white' && styles.titleCentered]}

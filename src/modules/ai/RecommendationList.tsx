@@ -37,7 +37,11 @@ export function RecommendationList() {
     }
     if (r.kind === 'post') {
       const post = posts.data?.find((p) => p.id === r.postId);
-      return { title: post ? tr(post.title) : '', subtitle: post ? tr(post.body) : '', go: () => router.push({ pathname: '/social/post/[id]', params: { id: r.postId } }) };
+      return {
+        title: post ? tr(post.title) : '',
+        subtitle: post ? tr(post.body) : '',
+        go: () => router.push({ pathname: '/social/post/[id]', params: { id: r.postId } }),
+      };
     }
     const eq = equipment.data?.find((e) => e.id === r.equipmentId);
     const part = eq?.parts.find((p) => p.id === r.partId);
@@ -82,12 +86,29 @@ export function RecommendationList() {
 
 const styles = StyleSheet.create({
   row: { gap: spacing.md, paddingVertical: spacing.sm, paddingRight: spacing.lg },
-  card: { width: 210, backgroundColor: colors.white, borderRadius: radius.lg, padding: spacing.md, gap: 4, borderWidth: 1, borderColor: '#EEF0F3', ...shadow.card },
+  card: {
+    width: 210,
+    backgroundColor: colors.white,
+    borderRadius: radius.lg,
+    padding: spacing.md,
+    gap: 4,
+    borderWidth: 1,
+    borderColor: '#EEF0F3',
+    ...shadow.card,
+  },
   top: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   icon: { width: 28, height: 28, borderRadius: 14, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center' },
   score: { fontFamily: fonts.medium, fontSize: 10, color: colors.textMuted },
   title: { fontFamily: fonts.semibold, fontSize: fontSize.sm, color: colors.text, marginTop: 4 },
   subtitle: { fontFamily: fonts.regular, fontSize: fontSize.xs, color: colors.textMuted },
-  reason: { flexDirection: 'row', gap: 4, alignItems: 'flex-start', backgroundColor: colors.primarySoft, borderRadius: radius.sm, padding: 6, marginTop: 4 },
+  reason: {
+    flexDirection: 'row',
+    gap: 4,
+    alignItems: 'flex-start',
+    backgroundColor: colors.primarySoft,
+    borderRadius: radius.sm,
+    padding: 6,
+    marginTop: 4,
+  },
   reasonText: { flex: 1, fontFamily: fonts.regular, fontSize: 10, color: colors.navy },
 });

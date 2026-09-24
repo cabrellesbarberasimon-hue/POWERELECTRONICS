@@ -41,7 +41,17 @@ export function ReactionButtons({ post, dark, vertical }: { post: Post; dark?: b
 
 const styles = StyleSheet.create({
   row: { flexDirection: 'row', gap: 6 },
-  btn: { flexDirection: 'row', alignItems: 'center', gap: 3, paddingHorizontal: 8, paddingVertical: 3, borderRadius: radius.pill, backgroundColor: colors.surfaceAlt, borderWidth: 1, borderColor: colors.border },
+  btn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 3,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: radius.pill,
+    backgroundColor: colors.surfaceAlt,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
   btnDark: { backgroundColor: 'rgba(0,0,0,0.35)', borderColor: 'rgba(255,255,255,0.3)' },
   btnOn: { backgroundColor: colors.primary, borderColor: colors.primary },
   emoji: { fontSize: 14 },

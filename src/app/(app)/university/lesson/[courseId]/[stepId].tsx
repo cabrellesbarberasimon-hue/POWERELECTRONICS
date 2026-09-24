@@ -40,14 +40,9 @@ export default function Lesson() {
   const done = progress.data.find((p) => p.courseId === courseId)?.completedStepIds.includes(step.id);
 
   const complete = () =>
-    outcome.mutate(
-      { courseId, stepId: step.id, outcome: 'completed' },
-      { onSuccess: () => toast(t('university.completed'), 'success') },
-    );
+    outcome.mutate({ courseId, stepId: step.id, outcome: 'completed' }, { onSuccess: () => toast(t('university.completed'), 'success') });
   const goNext = () =>
-    next
-      ? router.replace({ pathname: '/university/lesson/[courseId]/[stepId]', params: { courseId, stepId: next.id } })
-      : router.back();
+    next ? router.replace({ pathname: '/university/lesson/[courseId]/[stepId]', params: { courseId, stepId: next.id } }) : router.back();
 
   return (
     <Screen header={<Header breadcrumb title={`${course.data.path.join('/')}/${idx + 1}`} />}>
@@ -64,22 +59,39 @@ export default function Lesson() {
         )}
       </View>
 
-      <StepContent key={step.id} step={step} onPassed={complete} onFailed={() => outcome.mutate({ courseId, stepId: step.id, outcome: 'failed' })} />
+      <StepContent
+        key={step.id}
+        step={step}
+        onPassed={complete}
+        onFailed={() => outcome.mutate({ courseId, stepId: step.id, outcome: 'failed' })}
+      />
 
       <View style={styles.actions}>
-        {step.type !== 'test' && !done && <PrimaryButton testID="mark-done" label={t('university.markDone')} icon="checkmark" onPress={complete} loading={outcome.isPending} />}
+        {step.type !== 'test' && !done && (
+          <PrimaryButton
+            testID="mark-done"
+            label={t('university.markDone')}
+            icon="checkmark"
+            onPress={complete}
+            loading={outcome.isPending}
+          />
+        )}
         {step.partId && course.data.equipmentId && (
           <CTAButton
             label={t('lesson.practiceAR')}
             icon="scan"
-            onPress={() => router.push({ pathname: '/training/[equipmentId]', params: { equipmentId: course.data!.equipmentId!, part: step.partId } })}
+            onPress={() =>
+              router.push({ pathname: '/training/[equipmentId]', params: { equipmentId: course.data!.equipmentId!, part: step.partId } })
+            }
           />
         )}
         <OutlineButton label={next ? t('university.nextLesson') : t('common.done')} iconRight="chevron-forward" onPress={goNext} />
         <GhostButton
           label={t('university.reportDifficulty')}
           icon="alert-circle-outline"
-          onPress={() => outcome.mutate({ courseId, stepId: step.id, outcome: 'failed' }, { onSuccess: () => toast(t('university.reported')) })}
+          onPress={() =>
+            outcome.mutate({ courseId, stepId: step.id, outcome: 'failed' }, { onSuccess: () => toast(t('university.reported')) })
+          }
         />
       </View>
     </Screen>
@@ -155,7 +167,10 @@ function Quiz({ step, onPassed, onFailed }: { step: CourseStep; onPassed: () => 
   const [result, setResult] = useState<{ score: number; passed: boolean } | null>(null);
 
   const submit = () => {
-    const r = gradeQuiz(answers, quiz.map((q) => q.answer));
+    const r = gradeQuiz(
+      answers,
+      quiz.map((q) => q.answer),
+    );
     setResult(r);
     if (r.passed) onPassed();
     else onFailed();
@@ -190,7 +205,9 @@ function Quiz({ step, onPassed, onFailed }: { step: CourseStep; onPassed: () => 
       {result ? (
         <View style={[styles.result, { backgroundColor: result.passed ? '#E8F8EE' : '#FDECEC' }]}>
           <Text style={[styles.resultText, { color: result.passed ? colors.green : colors.red }]}>
-            {result.passed ? t('lesson.passed', { score: Math.round(result.score * 100) }) : t('lesson.failed', { score: Math.round(result.score * 100) })}
+            {result.passed
+              ? t('lesson.passed', { score: Math.round(result.score * 100) })
+              : t('lesson.failed', { score: Math.round(result.score * 100) })}
           </Text>
           {!result.passed && (
             <GhostButton
@@ -204,7 +221,12 @@ function Quiz({ step, onPassed, onFailed }: { step: CourseStep; onPassed: () => 
           )}
         </View>
       ) : (
-        <PrimaryButton testID="quiz-submit" label={t('lesson.submit')} disabled={answers.filter((a) => a !== undefined).length < quiz.length} onPress={submit} />
+        <PrimaryButton
+          testID="quiz-submit"
+          label={t('lesson.submit')}
+          disabled={answers.filter((a) => a !== undefined).length < quiz.length}
+          onPress={submit}
+        />
       )}
     </View>
   );
@@ -214,7 +236,16 @@ const styles = StyleSheet.create({
   section: { fontFamily: fonts.medium, fontSize: fontSize.sm, color: colors.primary },
   title: { fontFamily: fonts.semibold, fontSize: fontSize.xl, color: colors.text, marginTop: 4 },
   meta: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginVertical: spacing.md },
-  badge: { backgroundColor: colors.primarySoft, color: colors.primary, fontFamily: fonts.semibold, fontSize: 11, paddingHorizontal: 8, paddingVertical: 2, borderRadius: radius.sm, overflow: 'hidden' },
+  badge: {
+    backgroundColor: colors.primarySoft,
+    color: colors.primary,
+    fontFamily: fonts.semibold,
+    fontSize: 11,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: radius.sm,
+    overflow: 'hidden',
+  },
   metaText: { fontFamily: fonts.regular, fontSize: fontSize.xs, color: colors.textMuted },
   box: { backgroundColor: colors.surfaceAlt, borderRadius: radius.lg, padding: spacing.lg, gap: spacing.sm },
   body: { fontFamily: fonts.regular, fontSize: fontSize.md, color: colors.text, lineHeight: 23 },
@@ -225,7 +256,16 @@ const styles = StyleSheet.create({
   line: { height: 8, borderRadius: 4, backgroundColor: colors.surface },
   playOverlay: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center' },
   question: { fontFamily: fonts.semibold, fontSize: fontSize.md, color: colors.text },
-  opt: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, padding: spacing.md, borderRadius: radius.md, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.white },
+  opt: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    padding: spacing.md,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.white,
+  },
   optOn: { borderColor: colors.primary },
   optCorrect: { borderColor: colors.green, backgroundColor: '#E8F8EE' },
   optWrong: { borderColor: colors.red, backgroundColor: '#FDECEC' },

@@ -36,10 +36,24 @@ export default function PostDetail() {
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <Screen
-        header={<Header title={tr(p.title)} home={false} right={<HeaderIcon icon="close" label={t('common.close')} onPress={() => router.back()} />} back={false} />}
+        header={
+          <Header
+            title={tr(p.title)}
+            home={false}
+            right={<HeaderIcon icon="close" label={t('common.close')} onPress={() => router.back()} />}
+            back={false}
+          />
+        }
         footer={
           <View style={styles.composer}>
-            <TextInput value={text} onChangeText={setText} placeholder={t('social.writeComment')} style={styles.input} onSubmitEditing={send} testID="comment-input" />
+            <TextInput
+              value={text}
+              onChangeText={setText}
+              placeholder={t('social.writeComment')}
+              style={styles.input}
+              onSubmitEditing={send}
+              testID="comment-input"
+            />
             <Pressable onPress={send} style={styles.send} accessibilityRole="button" accessibilityLabel={t('common.send')}>
               <Text style={styles.sendText}>{t('common.send')}</Text>
             </Pressable>
@@ -75,7 +89,9 @@ export default function PostDetail() {
                 <Stars
                   value={myRating?.stars ?? 0}
                   size={30}
-                  onChange={(stars) => rate.mutate({ postId: p.id, stars }, { onSuccess: () => toast(`${t('social.rate')}: ${stars} ⭐`, 'success') })}
+                  onChange={(stars) =>
+                    rate.mutate({ postId: p.id, stars }, { onSuccess: () => toast(`${t('social.rate')}: ${stars} ⭐`, 'success') })
+                  }
                 />
               ) : (
                 <Stars value={myRating?.stars ?? 0} size={24} />
@@ -119,8 +135,22 @@ const styles = StyleSheet.create({
   bubble: { flex: 1, backgroundColor: colors.surfaceAlt, borderRadius: radius.md, padding: spacing.md },
   commentAuthor: { fontFamily: fonts.semibold, fontSize: fontSize.sm, color: colors.text },
   commentText: { fontFamily: fonts.regular, fontSize: fontSize.sm, color: colors.text, marginTop: 2 },
-  composer: { flexDirection: 'row', gap: spacing.sm, padding: spacing.md, borderTopWidth: 1, borderColor: colors.border, backgroundColor: colors.white },
-  input: { flex: 1, backgroundColor: colors.surfaceAlt, borderRadius: radius.pill, paddingHorizontal: spacing.lg, height: 42, fontFamily: fonts.regular },
+  composer: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    padding: spacing.md,
+    borderTopWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.white,
+  },
+  input: {
+    flex: 1,
+    backgroundColor: colors.surfaceAlt,
+    borderRadius: radius.pill,
+    paddingHorizontal: spacing.lg,
+    height: 42,
+    fontFamily: fonts.regular,
+  },
   send: { backgroundColor: colors.primary, borderRadius: radius.pill, paddingHorizontal: spacing.lg, justifyContent: 'center' },
   sendText: { color: colors.white, fontFamily: fonts.semibold },
 });

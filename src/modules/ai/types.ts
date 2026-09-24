@@ -1,14 +1,4 @@
-import type {
-  Alert,
-  Challenge,
-  Course,
-  CourseProgress,
-  Equipment,
-  HistoryEntry,
-  Localized,
-  Post,
-  User,
-} from '@/types/domain';
+import type { Alert, Challenge, Course, CourseProgress, Equipment, HistoryEntry, Localized, Post, User } from '@/types/domain';
 
 /** Everything the engine may look at for one learner. */
 export interface LearnerContext {

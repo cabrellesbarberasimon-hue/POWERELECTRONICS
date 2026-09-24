@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Animated, Easing, Image, Pressable, StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
 import Svg, { Circle, Ellipse, Path, Rect } from 'react-native-svg';
 import type { Media } from '@/types/domain';
@@ -20,8 +20,8 @@ export type AvatarId = (typeof AVATARS)[number]['id'];
 
 export function AvatarCharacter({ id, height = 220, animated = true }: { id: string; height?: number; animated?: boolean }) {
   const a = AVATARS.find((x) => x.id === id) ?? AVATARS[0];
-  const bob = useRef(new Animated.Value(0)).current;
-  const wave = useRef(new Animated.Value(0)).current;
+  const [bob] = useState(() => new Animated.Value(0));
+  const [wave] = useState(() => new Animated.Value(0));
 
   useEffect(() => {
     if (!animated) return;
@@ -98,7 +98,9 @@ export function AvatarCharacter({ id, height = 220, animated = true }: { id: str
         }}
       >
         <View style={{ flex: 1, backgroundColor: a.shirt, borderRadius: 6 }} />
-        <View style={{ position: 'absolute', bottom: -6, left: 0, right: 0, height: w * 0.12, borderRadius: 99, backgroundColor: a.skin }} />
+        <View
+          style={{ position: 'absolute', bottom: -6, left: 0, right: 0, height: w * 0.12, borderRadius: 99, backgroundColor: a.skin }}
+        />
       </Animated.View>
     </Animated.View>
   );
@@ -108,10 +110,21 @@ export function AvatarCharacter({ id, height = 220, animated = true }: { id: str
 // Audio message with fake waveform (Community / Team Notifications)
 // ---------------------------------------------------------------------------
 
-export function AudioWave({ durationSec = 30, color = colors.primary, compact }: { durationSec?: number; color?: string; compact?: boolean }) {
+export function AudioWave({
+  durationSec = 30,
+  color = colors.primary,
+  compact,
+}: {
+  durationSec?: number;
+  color?: string;
+  compact?: boolean;
+}) {
   const [playing, setPlaying] = useState(false);
   const [elapsed, setElapsed] = useState(0);
-  const bars = useMemo(() => Array.from({ length: compact ? 22 : 32 }, (_, i) => 0.25 + Math.abs(Math.sin(i * 1.7) * Math.cos(i * 0.6))), [compact]);
+  const bars = useMemo(
+    () => Array.from({ length: compact ? 22 : 32 }, (_, i) => 0.25 + Math.abs(Math.sin(i * 1.7) * Math.cos(i * 0.6))),
+    [compact],
+  );
 
   useEffect(() => {
     if (!playing) return;
@@ -131,12 +144,26 @@ export function AudioWave({ durationSec = 30, color = colors.primary, compact }:
   const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
   return (
     <View style={[styles.audio, { borderColor: color }]}>
-      <Pressable onPress={() => setPlaying((p) => !p)} accessibilityRole="button" accessibilityLabel={playing ? 'pause' : 'play'} style={[styles.play, { backgroundColor: color }]}>
+      <Pressable
+        onPress={() => setPlaying((p) => !p)}
+        accessibilityRole="button"
+        accessibilityLabel={playing ? 'pause' : 'play'}
+        style={[styles.play, { backgroundColor: color }]}
+      >
         <Ionicons name={playing ? 'pause' : 'play'} size={14} color={colors.white} />
       </Pressable>
       <View style={styles.bars}>
         {bars.map((h, i) => (
-          <View key={i} style={{ flex: 1, marginHorizontal: 0.8, height: `${h * 100}%`, borderRadius: 2, backgroundColor: i / bars.length <= pct ? color : `${color}66` }} />
+          <View
+            key={i}
+            style={{
+              flex: 1,
+              marginHorizontal: 0.8,
+              height: `${h * 100}%`,
+              borderRadius: 2,
+              backgroundColor: i / bars.length <= pct ? color : `${color}66`,
+            }}
+          />
         ))}
       </View>
       <Text style={[styles.time, { color }]}>{fmt(playing ? elapsed : durationSec)}</Text>
@@ -171,7 +198,9 @@ export function MediaView({ media, style, large }: { media: Media; style?: Style
           <AudioWave durationSec={media.durationSec} color={colors.white} />
         </View>
       ) : (
-        !media.avatarId && <Ionicons name={KIND_ICON[media.kind]} size={large ? 84 : 42} color={dark ? 'rgba(255,255,255,0.9)' : colors.primary} />
+        !media.avatarId && (
+          <Ionicons name={KIND_ICON[media.kind]} size={large ? 84 : 42} color={dark ? 'rgba(255,255,255,0.9)' : colors.primary} />
+        )
       )}
       {media.durationSec && media.kind === 'video' ? (
         <View style={styles.duration}>
@@ -187,7 +216,7 @@ export function MediaView({ media, style, large }: { media: Media; style?: Style
 function PanelPattern({ dark }: { dark: boolean }) {
   const stroke = dark ? 'rgba(255,255,255,0.12)' : 'rgba(30,136,196,0.12)';
   return (
-    <Svg style={StyleSheet.absoluteFill} viewBox="0 0 100 100" preserveAspectRatio="none">
+    <Svg width="100%" height="100%" style={StyleSheet.absoluteFill} viewBox="0 0 100 100" preserveAspectRatio="none">
       {Array.from({ length: 9 }, (_, i) => (
         <Path key={`v${i}`} d={`M${(i + 1) * 10} 0 L${(i + 1) * 10 - 8} 100`} stroke={stroke} strokeWidth={0.6} />
       ))}
@@ -199,12 +228,32 @@ function PanelPattern({ dark }: { dark: boolean }) {
 }
 
 const styles = StyleSheet.create({
-  audio: { flexDirection: 'row', alignItems: 'center', borderWidth: 2, borderRadius: radius.pill, paddingHorizontal: 6, paddingVertical: 4, gap: 6, backgroundColor: 'rgba(255,255,255,0.08)' },
+  audio: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderRadius: radius.pill,
+    paddingHorizontal: 6,
+    paddingVertical: 4,
+    gap: 6,
+    backgroundColor: 'rgba(255,255,255,0.08)',
+  },
   play: { width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
   bars: { flex: 1, height: 22, flexDirection: 'row', alignItems: 'center' },
   time: { fontFamily: fonts.medium, fontSize: 10, minWidth: 28, textAlign: 'right' },
   media: { borderRadius: radius.lg, overflow: 'hidden', alignItems: 'center', justifyContent: 'center', minHeight: 140 },
   mediaAvatar: { position: 'absolute', bottom: spacing.sm, left: spacing.lg },
-  duration: { position: 'absolute', right: 8, top: 8, flexDirection: 'row', alignItems: 'center', gap: 3, backgroundColor: 'rgba(0,0,0,0.45)', borderRadius: 8, paddingHorizontal: 6, paddingVertical: 2 },
+  duration: {
+    position: 'absolute',
+    right: 8,
+    top: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 3,
+    backgroundColor: 'rgba(0,0,0,0.45)',
+    borderRadius: 8,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
   durationText: { color: colors.white, fontFamily: fonts.medium, fontSize: 10 },
 });

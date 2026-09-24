@@ -35,7 +35,14 @@ export default function LevelCourses() {
       ) : (
         <View style={{ gap: spacing.md }}>
           {courses.data.map((c) => (
-            <CourseRow key={c.id} course={c} percent={progressPercent(c, progress.data.find((p) => p.courseId === c.id))} />
+            <CourseRow
+              key={c.id}
+              course={c}
+              percent={progressPercent(
+                c,
+                progress.data.find((p) => p.courseId === c.id),
+              )}
+            />
           ))}
         </View>
       )}

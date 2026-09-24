@@ -9,8 +9,16 @@ const base = () => {
 };
 
 const post = (id: string, authorId: string, like: string[] = [], idea: string[] = []): Post => ({
-  id, authorId, createdAt: new Date().toISOString(), title: 't', body: 'b', media: { kind: 'text', tint: '#fff' }, tags: ['lever'],
-  reactions: { like, wow: [], idea }, comments: [], shares: 0,
+  id,
+  authorId,
+  createdAt: new Date().toISOString(),
+  title: 't',
+  body: 'b',
+  media: { kind: 'text', tint: '#fff' },
+  tags: ['lever'],
+  reactions: { like, wow: [], idea },
+  comments: [],
+  shares: 0,
 });
 
 describe('contribution scoring', () => {
@@ -37,9 +45,17 @@ describe('contribution scoring', () => {
     const data = base();
     const now = Date.now();
     const challenge = {
-      id: 'c', period: 'monthly' as const, title: { en: '', es: '' }, description: { en: '', es: '' }, points: 50,
-      startsAt: new Date(now - 86400000).toISOString(), endsAt: new Date(now + 86400000).toISOString(),
-      goal: { type: 'publish' as const, target: 2 }, createdBy: 'admin' as const, participants: ['a'], completedBy: [],
+      id: 'c',
+      period: 'monthly' as const,
+      title: { en: '', es: '' },
+      description: { en: '', es: '' },
+      points: 50,
+      startsAt: new Date(now - 86400000).toISOString(),
+      endsAt: new Date(now + 86400000).toISOString(),
+      goal: { type: 'publish' as const, target: 2 },
+      createdBy: 'admin' as const,
+      participants: ['a'],
+      completedBy: [],
     };
     data.posts = [post('p1', 'a')];
     expect(challengeProgress(challenge, 'a', data)).toMatchObject({ current: 1, target: 2, percent: 50, done: false });

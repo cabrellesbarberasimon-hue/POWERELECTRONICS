@@ -52,7 +52,12 @@ export function PartPanel({
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.icons}>
         <Ionicons name="list" size={22} color={colors.primary} />
         {parts.map((p) => (
-          <Pressable key={p.id} onPress={() => onSelect(p)} accessibilityLabel={tr(p.name)} style={[styles.icon, part?.id === p.id && styles.iconOn]}>
+          <Pressable
+            key={p.id}
+            onPress={() => onSelect(p)}
+            accessibilityLabel={tr(p.name)}
+            style={[styles.icon, part?.id === p.id && styles.iconOn]}
+          >
             <MaterialCommunityIcons name={PART_ICON[p.id] ?? 'cog'} size={22} color={part?.id === p.id ? colors.white : colors.primary} />
           </Pressable>
         ))}
@@ -77,8 +82,31 @@ export function PartPanel({
 }
 
 const styles = StyleSheet.create({
-  panel: { position: 'absolute', right: 0, top: 0, bottom: 0, width: 190, backgroundColor: '#EFEFEF', padding: spacing.md, borderTopLeftRadius: radius.lg, borderBottomLeftRadius: radius.lg, elevation: 8, shadowColor: '#000', shadowOpacity: 0.2, shadowRadius: 10 },
-  search: { flexDirection: 'row', alignItems: 'center', backgroundColor: colors.white, borderRadius: radius.pill, paddingHorizontal: spacing.sm, height: 32, borderWidth: 1, borderColor: colors.border },
+  panel: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    bottom: 0,
+    width: 190,
+    backgroundColor: '#EFEFEF',
+    padding: spacing.md,
+    borderTopLeftRadius: radius.lg,
+    borderBottomLeftRadius: radius.lg,
+    elevation: 8,
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+  },
+  search: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.white,
+    borderRadius: radius.pill,
+    paddingHorizontal: spacing.sm,
+    height: 32,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
   searchInput: { flex: 1, fontFamily: fonts.regular, fontSize: 12 },
   titleRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: spacing.md },
   title: { fontFamily: fonts.semibold, fontSize: fontSize.sm, color: '#4B4B4B' },

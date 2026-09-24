@@ -25,7 +25,11 @@ export default function Review() {
         {monthKey()} · {t('social.starsPrivate')}
       </Text>
       <View style={styles.tabs}>
-        <Chip label={`${t('admin.pendingReview')} (${(posts.data?.length ?? 0) - rated.size})`} active={tab === 'pending'} onPress={() => setTab('pending')} />
+        <Chip
+          label={`${t('admin.pendingReview')} (${(posts.data?.length ?? 0) - rated.size})`}
+          active={tab === 'pending'}
+          onPress={() => setTab('pending')}
+        />
         <Chip label={`${t('admin.ratedThisMonth')} (${rated.size})`} active={tab === 'rated'} onPress={() => setTab('rated')} />
       </View>
       {list.length === 0 && <EmptyState text={t('common.empty')} icon="star-outline" />}
@@ -54,7 +58,9 @@ export default function Review() {
               <Stars
                 value={rated.get(p.id)?.stars ?? 0}
                 size={28}
-                onChange={(stars) => rate.mutate({ postId: p.id, stars }, { onSuccess: () => toast(`${'⭐'.repeat(stars)} · ${author?.name}`, 'success') })}
+                onChange={(stars) =>
+                  rate.mutate({ postId: p.id, stars }, { onSuccess: () => toast(`${'⭐'.repeat(stars)} · ${author?.name}`, 'success') })
+                }
               />
             </View>
           </View>
@@ -67,7 +73,14 @@ export default function Review() {
 const styles = StyleSheet.create({
   hint: { fontFamily: fonts.regular, fontSize: fontSize.xs, color: colors.textMuted },
   tabs: { flexDirection: 'row', gap: spacing.sm, marginVertical: spacing.lg },
-  card: { borderWidth: 1, borderColor: colors.border, borderRadius: radius.lg, padding: spacing.md, marginBottom: spacing.md, gap: spacing.sm },
+  card: {
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: radius.lg,
+    padding: spacing.md,
+    marginBottom: spacing.md,
+    gap: spacing.sm,
+  },
   row: { flexDirection: 'row', gap: spacing.md },
   thumb: { width: 72, height: 72, minHeight: 72, borderRadius: radius.md },
   title: { fontFamily: fonts.semibold, fontSize: fontSize.sm, color: colors.text },

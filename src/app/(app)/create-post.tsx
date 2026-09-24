@@ -1,7 +1,19 @@
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useRef, useState } from 'react';
-import { KeyboardAvoidingView, Modal, PanResponder, Platform, Pressable, ScrollView, Share, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Modal,
+  PanResponder,
+  Platform,
+  Pressable,
+  ScrollView,
+  Share,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useCourses, useCreatePost } from '@/hooks/api';
 import { useI18n } from '@/i18n';
@@ -52,16 +64,21 @@ export default function CreatePost() {
   const [courseId, setCourseId] = useState(params.courseId ?? '');
   const [pos, setPos] = useState({ x: 20, y: 0 });
 
-  const drag = useRef({ x: 20, y: 0 });
-  const avatarResponder = useRef(
-    PanResponder.create({
+  const [avatarResponder] = useState(() => {
+    let last = { dx: 0, dy: 0 };
+    return PanResponder.create({
       onStartShouldSetPanResponder: () => true,
-      onPanResponderMove: (_, g) => setPos({ x: drag.current.x + g.dx, y: drag.current.y + g.dy }),
-      onPanResponderRelease: (_, g) => {
-        drag.current = { x: drag.current.x + g.dx, y: drag.current.y + g.dy };
+      onPanResponderGrant: () => {
+        last = { dx: 0, dy: 0 };
       },
-    }),
-  ).current;
+      onPanResponderMove: (_, g) => {
+        const ddx = g.dx - last.dx;
+        const ddy = g.dy - last.dy;
+        last = { dx: g.dx, dy: g.dy };
+        setPos((p) => ({ x: p.x + ddx, y: p.y + ddy }));
+      },
+    });
+  });
 
   const onTool = async (k: AnnotationTool) => {
     if (k === 'capture') {
@@ -122,7 +139,12 @@ export default function CreatePost() {
         </Pressable>
       </View>
 
-      <Pressable style={[styles.plus, { bottom: insets.bottom + 90 }]} onPress={() => setPickAvatar((p) => !p)} accessibilityRole="button" accessibilityLabel={t('create.avatar')}>
+      <Pressable
+        style={[styles.plus, { bottom: insets.bottom + 90 }]}
+        onPress={() => setPickAvatar((p) => !p)}
+        accessibilityRole="button"
+        accessibilityLabel={t('create.avatar')}
+      >
         <Ionicons name="add" size={30} color={colors.white} />
       </Pressable>
 
@@ -134,7 +156,12 @@ export default function CreatePost() {
               <Ionicons name="ban" size={28} color={colors.textMuted} />
             </Pressable>
             {AVATARS.map((a) => (
-              <Pressable key={a.id} onPress={() => setAvatar(a.id)} style={[styles.pickItem, avatar === a.id && styles.pickOn]} accessibilityLabel={a.id}>
+              <Pressable
+                key={a.id}
+                onPress={() => setAvatar(a.id)}
+                style={[styles.pickItem, avatar === a.id && styles.pickOn]}
+                accessibilityLabel={a.id}
+              >
                 <AvatarCharacter id={a.id} height={70} animated={false} />
               </Pressable>
             ))}
@@ -144,7 +171,11 @@ export default function CreatePost() {
       )}
 
       <View style={[styles.toolbar, { paddingBottom: insets.bottom }]}>
-        <AnnotationToolbar active={tool} onPress={onTool} labels={t('training.tools', { returnObjects: true }) as Record<AnnotationTool, string>} />
+        <AnnotationToolbar
+          active={tool}
+          onPress={onTool}
+          labels={t('training.tools', { returnObjects: true }) as Record<AnnotationTool, string>}
+        />
       </View>
 
       <Modal visible={form} animationType="slide" transparent onRequestClose={() => setForm(false)}>
@@ -152,8 +183,20 @@ export default function CreatePost() {
           <View style={[styles.sheet, { paddingBottom: insets.bottom + spacing.lg }]}>
             <ScrollView keyboardShouldPersistTaps="handled">
               <Text style={styles.sheetTitle}>{t('create.title')}</Text>
-              <TextInput testID="post-title" value={title} onChangeText={setTitle} placeholder={t('create.titlePlaceholder')} style={styles.input} />
-              <TextInput value={body} onChangeText={setBody} placeholder={t('create.bodyPlaceholder')} multiline style={[styles.input, { height: 90, textAlignVertical: 'top' }]} />
+              <TextInput
+                testID="post-title"
+                value={title}
+                onChangeText={setTitle}
+                placeholder={t('create.titlePlaceholder')}
+                style={styles.input}
+              />
+              <TextInput
+                value={body}
+                onChangeText={setBody}
+                placeholder={t('create.bodyPlaceholder')}
+                multiline
+                style={[styles.input, { height: 90, textAlignVertical: 'top' }]}
+              />
               <Text style={styles.label}>{t('create.mediaType')}</Text>
               <View style={styles.chips}>
                 <Chip icon="videocam" label={t('university.types.video')} active={videoMode} onPress={() => setVideoMode(true)} />
@@ -170,12 +213,28 @@ export default function CreatePost() {
               <Text style={styles.label}>{t('create.tags')}</Text>
               <View style={[styles.chips, { flexWrap: 'wrap' }]}>
                 {TAGS.map((tag) => (
-                  <Chip key={tag} label={`#${tag}`} active={tags.includes(tag)} onPress={() => setTags((ts) => (ts.includes(tag) ? ts.filter((x) => x !== tag) : [...ts, tag]))} />
+                  <Chip
+                    key={tag}
+                    label={`#${tag}`}
+                    active={tags.includes(tag)}
+                    onPress={() => setTags((ts) => (ts.includes(tag) ? ts.filter((x) => x !== tag) : [...ts, tag]))}
+                  />
                 ))}
               </View>
               <View style={{ flexDirection: 'row', gap: spacing.md, marginTop: spacing.xl }}>
-                <PrimaryButton label={t('common.cancel')} onPress={() => setForm(false)} style={{ flex: 1, backgroundColor: colors.textMuted }} />
-                <PrimaryButton testID="post-publish" label={t('common.publish')} icon="send" onPress={publish} loading={create.isPending} style={{ flex: 1 }} />
+                <PrimaryButton
+                  label={t('common.cancel')}
+                  onPress={() => setForm(false)}
+                  style={{ flex: 1, backgroundColor: colors.textMuted }}
+                />
+                <PrimaryButton
+                  testID="post-publish"
+                  label={t('common.publish')}
+                  icon="send"
+                  onPress={publish}
+                  loading={create.isPending}
+                  style={{ flex: 1 }}
+                />
               </View>
             </ScrollView>
           </View>
@@ -187,20 +246,75 @@ export default function CreatePost() {
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.black },
-  top: { position: 'absolute', top: 0, left: 0, right: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: spacing.lg },
+  top: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: spacing.lg,
+  },
   demo: { flex: 1, textAlign: 'center', color: colors.navy, fontFamily: fonts.medium, fontSize: 10, marginHorizontal: spacing.sm },
   avatar: { position: 'absolute', left: 0, bottom: 130 },
-  plus: { position: 'absolute', alignSelf: 'center', left: '50%', marginLeft: -28, width: 56, height: 56, borderRadius: 28, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center', borderWidth: 3, borderColor: colors.white },
-  picker: { position: 'absolute', left: spacing.lg, right: spacing.lg, backgroundColor: 'rgba(255,255,255,0.96)', borderRadius: radius.lg, padding: spacing.md, gap: spacing.sm },
+  plus: {
+    position: 'absolute',
+    alignSelf: 'center',
+    left: '50%',
+    marginLeft: -28,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: colors.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 3,
+    borderColor: colors.white,
+  },
+  picker: {
+    position: 'absolute',
+    left: spacing.lg,
+    right: spacing.lg,
+    backgroundColor: 'rgba(255,255,255,0.96)',
+    borderRadius: radius.lg,
+    padding: spacing.md,
+    gap: spacing.sm,
+  },
   pickerTitle: { fontFamily: fonts.semibold, color: colors.text },
   pickerHint: { fontFamily: fonts.regular, fontSize: 10, color: colors.textMuted },
-  pickItem: { padding: 4, borderRadius: radius.md, borderWidth: 2, borderColor: 'transparent', minWidth: 44, minHeight: 74, alignItems: 'center', justifyContent: 'center' },
+  pickItem: {
+    padding: 4,
+    borderRadius: radius.md,
+    borderWidth: 2,
+    borderColor: 'transparent',
+    minWidth: 44,
+    minHeight: 74,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   pickOn: { borderColor: colors.primary },
   toolbar: { position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: colors.primary },
   sheetWrap: { flex: 1, justifyContent: 'flex-end', backgroundColor: 'rgba(0,0,0,0.35)' },
-  sheet: { backgroundColor: colors.white, borderTopLeftRadius: radius.xl, borderTopRightRadius: radius.xl, padding: spacing.lg, maxHeight: '85%' },
+  sheet: {
+    backgroundColor: colors.white,
+    borderTopLeftRadius: radius.xl,
+    borderTopRightRadius: radius.xl,
+    padding: spacing.lg,
+    maxHeight: '85%',
+  },
   sheetTitle: { fontFamily: fonts.semibold, fontSize: fontSize.lg, color: colors.text, marginBottom: spacing.md },
-  input: { borderWidth: 1, borderColor: colors.border, borderRadius: radius.md, paddingHorizontal: spacing.md, paddingVertical: spacing.sm, fontFamily: fonts.regular, fontSize: fontSize.md, marginBottom: spacing.sm, minHeight: 44 },
+  input: {
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: radius.md,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    fontFamily: fonts.regular,
+    fontSize: fontSize.md,
+    marginBottom: spacing.sm,
+    minHeight: 44,
+  },
   label: { fontFamily: fonts.semibold, fontSize: fontSize.sm, marginTop: spacing.md, marginBottom: spacing.sm, color: colors.text },
   chips: { flexDirection: 'row', gap: spacing.sm },
   courseName: { fontFamily: fonts.regular, fontSize: fontSize.xs, color: colors.textMuted, marginTop: 4 },

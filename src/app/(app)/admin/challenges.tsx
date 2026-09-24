@@ -21,7 +21,8 @@ export default function AdminChallenges() {
   const [target, setTarget] = useState('2');
   const [points, setPoints] = useState('50');
 
-  const add = (draft: ChallengeDraft, createdBy: 'admin' | 'ai') => create.mutate({ draft, createdBy }, { onSuccess: () => toast(t('admin.created'), 'success') });
+  const add = (draft: ChallengeDraft, createdBy: 'admin' | 'ai') =>
+    create.mutate({ draft, createdBy }, { onSuccess: () => toast(t('admin.created'), 'success') });
 
   return (
     <Screen header={<Header title={t('admin.challenges')} />}>
@@ -76,7 +77,13 @@ export default function AdminChallenges() {
         loading={create.isPending}
         onPress={() =>
           add(
-            { title: { en: title, es: title }, description: { en: desc, es: desc }, period, points: Number(points) || 0, goal: { type: goal, target: Math.max(1, Number(target) || 1) } as ChallengeGoal },
+            {
+              title: { en: title, es: title },
+              description: { en: desc, es: desc },
+              period,
+              points: Number(points) || 0,
+              goal: { type: goal, target: Math.max(1, Number(target) || 1) } as ChallengeGoal,
+            },
             'admin',
           )
         }
@@ -100,7 +107,16 @@ const styles = StyleSheet.create({
   period: { fontFamily: fonts.semibold, fontSize: 11, color: colors.orange },
   title: { fontFamily: fonts.semibold, fontSize: fontSize.md, color: colors.text },
   muted: { fontFamily: fonts.regular, fontSize: fontSize.xs, color: colors.textMuted },
-  input: { borderWidth: 1, borderColor: colors.border, borderRadius: radius.md, paddingHorizontal: spacing.md, paddingVertical: spacing.sm, fontFamily: fonts.regular, marginBottom: spacing.sm, minHeight: 44 },
+  input: {
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: radius.md,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    fontFamily: fonts.regular,
+    marginBottom: spacing.sm,
+    minHeight: 44,
+  },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginBottom: spacing.sm },
   label: { fontFamily: fonts.semibold, fontSize: fontSize.sm, color: colors.text, marginVertical: 4 },
   row: { paddingVertical: spacing.sm, borderBottomWidth: 1, borderColor: '#F0F0F0' },

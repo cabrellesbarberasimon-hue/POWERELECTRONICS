@@ -27,7 +27,12 @@ export default function AdminHome() {
       const all = await Promise.all(users.data!.map((u) => api.university.listProgress(u.id)));
       const rows = all.flat();
       if (!rows.length) return 0;
-      const pcts = rows.map((p) => progressPercent(courses.data!.find((c) => c.id === p.courseId)!, p));
+      const pcts = rows.map((p) =>
+        progressPercent(
+          courses.data!.find((c) => c.id === p.courseId)!,
+          p,
+        ),
+      );
       return Math.round(pcts.reduce((a, b) => a + b, 0) / pcts.length);
     },
   });
@@ -78,6 +83,14 @@ const styles = StyleSheet.create({
   kpi: { width: '48%', flexGrow: 1, backgroundColor: colors.surfaceAlt, borderRadius: radius.lg, padding: spacing.lg, gap: 2 },
   kpiValue: { fontFamily: fonts.bold, fontSize: 32, color: colors.text },
   kpiLabel: { fontFamily: fonts.regular, fontSize: fontSize.xs, color: colors.textMuted },
-  link: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, padding: spacing.lg, borderRadius: radius.lg, borderWidth: 1, borderColor: colors.border },
+  link: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
+    padding: spacing.lg,
+    borderRadius: radius.lg,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
   linkText: { flex: 1, fontFamily: fonts.semibold, fontSize: fontSize.md, color: colors.text },
 });

@@ -44,8 +44,7 @@ export function __setDb(next: Database) {
 }
 
 /** Simulated network latency, disabled in tests. */
-export const latency = (ms = 120) =>
-  process.env.NODE_ENV === 'test' ? Promise.resolve() : new Promise<void>((r) => setTimeout(r, ms));
+export const latency = (ms = 120) => (process.env.NODE_ENV === 'test' ? Promise.resolve() : new Promise<void>((r) => setTimeout(r, ms)));
 
 let counter = 0;
 export const uid = (prefix: string) => `${prefix}-${Date.now().toString(36)}${(counter++).toString(36)}`;

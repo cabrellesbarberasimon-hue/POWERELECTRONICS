@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { Animated, Pressable, StyleSheet, Text } from 'react-native';
 import { useI18n } from '@/i18n';
 import { SenseLogo } from '@/shared/components';
@@ -10,7 +10,7 @@ import { colors, fonts, spacing } from '@/theme';
 export default function Splash() {
   const { t } = useI18n();
   const user = useSession((s) => s.user);
-  const fade = useRef(new Animated.Value(0)).current;
+  const [fade] = useState(() => new Animated.Value(0));
 
   const next = () => router.replace(user ? '/home' : '/login');
 
@@ -34,6 +34,16 @@ export default function Splash() {
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center', padding: spacing.xl },
-  tagline: { position: 'absolute', bottom: 90, left: spacing.xl, right: spacing.xl, color: colors.white, fontFamily: fonts.medium, textAlign: 'center', fontSize: 15, opacity: 0.9 },
+  tagline: {
+    position: 'absolute',
+    bottom: 90,
+    left: spacing.xl,
+    right: spacing.xl,
+    color: colors.white,
+    fontFamily: fonts.medium,
+    textAlign: 'center',
+    fontSize: 15,
+    opacity: 0.9,
+  },
   version: { position: 'absolute', bottom: 40, color: 'rgba(255,255,255,0.7)', fontFamily: fonts.regular, fontSize: 11 },
 });

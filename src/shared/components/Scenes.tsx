@@ -5,7 +5,7 @@ import Svg, { Defs, G, LinearGradient, Path, Polygon, Rect, Stop } from 'react-n
 export function SolarScene() {
   const panels = [0, 1, 2, 3];
   return (
-    <Svg style={StyleSheet.absoluteFill} viewBox="0 0 360 640" preserveAspectRatio="xMidYMid slice">
+    <Svg width="100%" height="100%" style={StyleSheet.absoluteFill} viewBox="0 0 360 640" preserveAspectRatio="xMidYMid slice">
       <Defs>
         <LinearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
           <Stop offset="0" stopColor="#6FA8D6" />
@@ -25,10 +25,22 @@ export function SolarScene() {
         <G key={i} transform={`translate(${150 + i * 8} ${170 + i * 95})`}>
           <Polygon points="0,0 230,-30 250,110 20,150" fill="url(#panel)" stroke="#C9D3DD" strokeWidth={3} />
           {Array.from({ length: 5 }, (_, k) => (
-            <Path key={`v${k}`} d={`M${(k + 1) * 38} ${-5 * (k + 1)} L${(k + 1) * 38 + 16} ${150 - 25 * ((k + 1) / 6)}`} stroke="#8EA3BA" strokeWidth={1} opacity={0.6} />
+            <Path
+              key={`v${k}`}
+              d={`M${(k + 1) * 38} ${-5 * (k + 1)} L${(k + 1) * 38 + 16} ${150 - 25 * ((k + 1) / 6)}`}
+              stroke="#8EA3BA"
+              strokeWidth={1}
+              opacity={0.6}
+            />
           ))}
           {Array.from({ length: 3 }, (_, k) => (
-            <Path key={`h${k}`} d={`M${5 * (k + 1)} ${37 * (k + 1)} L${235 + 4 * (k + 1)} ${-30 + 35 * (k + 1)}`} stroke="#8EA3BA" strokeWidth={1} opacity={0.6} />
+            <Path
+              key={`h${k}`}
+              d={`M${5 * (k + 1)} ${37 * (k + 1)} L${235 + 4 * (k + 1)} ${-30 + 35 * (k + 1)}`}
+              stroke="#8EA3BA"
+              strokeWidth={1}
+              opacity={0.6}
+            />
           ))}
           <Rect x={110} y={140} width={6} height={60} fill="#7D8792" />
         </G>

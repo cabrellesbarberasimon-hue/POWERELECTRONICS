@@ -26,7 +26,11 @@ export default function Ranking() {
           const u = users.data.find((x) => x.id === r.userId);
           const first = r.position === 1;
           return (
-            <Pressable key={r.userId} style={[styles.podiumItem, first && { marginBottom: spacing.xl }]} onPress={() => router.push({ pathname: '/social/profile/[id]', params: { id: r.userId } })}>
+            <Pressable
+              key={r.userId}
+              style={[styles.podiumItem, first && { marginBottom: spacing.xl }]}
+              onPress={() => router.push({ pathname: '/social/profile/[id]', params: { id: r.userId } })}
+            >
               <Text style={{ fontSize: first ? 34 : 26 }}>{MEDAL[r.position - 1]}</Text>
               <Avatar user={u} size={first ? 72 : 56} />
               <Text style={styles.podiumName} numberOfLines={1}>
@@ -42,7 +46,11 @@ export default function Ranking() {
         const u = users.data.find((x) => x.id === r.userId);
         const mine = r.userId === me.id;
         return (
-          <Pressable key={r.userId} style={[styles.row, mine && styles.rowMine]} onPress={() => router.push({ pathname: '/social/profile/[id]', params: { id: r.userId } })}>
+          <Pressable
+            key={r.userId}
+            style={[styles.row, mine && styles.rowMine]}
+            onPress={() => router.push({ pathname: '/social/profile/[id]', params: { id: r.userId } })}
+          >
             <Text style={styles.pos}>{r.position}</Text>
             <Avatar user={u} size={36} />
             <View style={{ flex: 1 }}>
@@ -50,7 +58,8 @@ export default function Ranking() {
                 {u?.name} {mine && `(${t('common.you')})`}
               </Text>
               <Text style={styles.meta}>
-                {u?.country} · {r.posts} {t('social.postsLabel').toLowerCase()} · {r.challengesCompleted} {t('social.challengesLabel').toLowerCase()}
+                {u?.country} · {r.posts} {t('social.postsLabel').toLowerCase()} · {r.challengesCompleted}{' '}
+                {t('social.challengesLabel').toLowerCase()}
               </Text>
               {(privileged || mine) && r.ratingsCount > 0 && <Stars value={r.starsAverage} size={12} />}
             </View>
@@ -63,10 +72,26 @@ export default function Ranking() {
 }
 
 const styles = StyleSheet.create({
-  podium: { flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-end', gap: spacing.lg, marginBottom: spacing.xl, backgroundColor: colors.primarySoft, borderRadius: radius.xl, padding: spacing.lg },
+  podium: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    gap: spacing.lg,
+    marginBottom: spacing.xl,
+    backgroundColor: colors.primarySoft,
+    borderRadius: radius.xl,
+    padding: spacing.lg,
+  },
   podiumItem: { alignItems: 'center', width: 96, gap: 4 },
   podiumName: { fontFamily: fonts.semibold, fontSize: fontSize.sm, color: colors.text },
-  row: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, paddingVertical: spacing.sm, paddingHorizontal: spacing.sm, borderRadius: radius.md },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.sm,
+    borderRadius: radius.md,
+  },
   rowMine: { backgroundColor: '#FFF4EC', borderWidth: 1, borderColor: colors.orange },
   pos: { width: 24, textAlign: 'center', fontFamily: fonts.bold, color: colors.textMuted },
   name: { fontFamily: fonts.semibold, fontSize: fontSize.sm, color: colors.text },

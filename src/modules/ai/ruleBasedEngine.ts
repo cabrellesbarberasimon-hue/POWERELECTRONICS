@@ -155,7 +155,11 @@ export class RuleBasedEngine implements RecommendationEngine {
   }
 
   async generateChallenges(ctx: TeamContext): Promise<ChallengeDraft[]> {
-    const { partHeat, tagHeat } = fieldSignals({ alerts: ctx.alerts, history: ctx.history, equipment: ctx.equipment }, this.weights, this.now());
+    const { partHeat, tagHeat } = fieldSignals(
+      { alerts: ctx.alerts, history: ctx.history, equipment: ctx.equipment },
+      this.weights,
+      this.now(),
+    );
     const drafts: ChallengeDraft[] = [];
     const parts = ctx.equipment.flatMap((e) => e.parts);
 
@@ -194,9 +198,7 @@ export class RuleBasedEngine implements RecommendationEngine {
     }
 
     // Monthly: lessons related to repeated failures.
-    const repeatTags = new Set(
-      ctx.history.filter((h) => !h.firstTimeFix).flatMap((h) => parts.find((p) => p.id === h.partId)?.tags ?? []),
-    );
+    const repeatTags = new Set(ctx.history.filter((h) => !h.firstTimeFix).flatMap((h) => parts.find((p) => p.id === h.partId)?.tags ?? []));
     const tag = [...repeatTags][0];
     if (tag && !ctx.existing.some((c) => c.goal.type === 'complete_steps' && c.goal.tag === tag)) {
       drafts.push({

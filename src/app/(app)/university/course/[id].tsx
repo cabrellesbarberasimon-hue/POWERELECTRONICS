@@ -7,7 +7,18 @@ import { useCourse, usePosts, useProgress, useStepOutcome } from '@/hooks/api';
 import { useI18n } from '@/i18n';
 import { CommunityPost } from '@/modules/social/CommunityPost';
 import { nextStep, progressPercent } from '@/modules/university/progress';
-import { CTAButton, EmptyState, Header, HeaderIcon, Loading, OutlineButton, ProgressRing, SegmentedTabs, SideMenu, toast } from '@/shared/components';
+import {
+  CTAButton,
+  EmptyState,
+  Header,
+  HeaderIcon,
+  Loading,
+  OutlineButton,
+  ProgressRing,
+  SegmentedTabs,
+  SideMenu,
+  toast,
+} from '@/shared/components';
 import { useUser } from '@/stores/session';
 import { colors, fonts, fontSize, radius, spacing } from '@/theme';
 import type { ContentType, CourseStep } from '@/types/domain';
@@ -50,15 +61,21 @@ export default function CourseScreen() {
   const c = course.data;
   const percent = progressPercent(c, p);
   const next = nextStep(c, p);
-  const openSection = open ?? (query || filter !== 'all' ? '*' : c.sections.find((s) => s.steps.some((st) => st.id === next?.id))?.id ?? c.sections[0].id);
+  const openSection =
+    open ?? (query || filter !== 'all' ? '*' : (c.sections.find((s) => s.steps.some((st) => st.id === next?.id))?.id ?? c.sections[0].id));
 
-  const openLesson = (stepId: string) => router.push({ pathname: '/university/lesson/[courseId]/[stepId]', params: { courseId: c.id, stepId } });
+  const openLesson = (stepId: string) =>
+    router.push({ pathname: '/university/lesson/[courseId]/[stepId]', params: { courseId: c.id, stepId } });
   const openTraining = () =>
     router.push(c.equipmentId ? { pathname: '/training/[equipmentId]', params: { equipmentId: c.equipmentId } } : '/training');
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
-      <Header breadcrumb title={c.path.join('/')} right={<HeaderIcon icon="search" label={t('common.search')} onPress={() => setSearching((s) => !s)} />} />
+      <Header
+        breadcrumb
+        title={c.path.join('/')}
+        right={<HeaderIcon icon="search" label={t('common.search')} onPress={() => setSearching((s) => !s)} />}
+      />
       {searching && (
         <View style={styles.searchBar}>
           <TextInput autoFocus value={query} onChangeText={setQuery} placeholder={t('common.search')} style={styles.searchInput} />
@@ -68,7 +85,13 @@ export default function CourseScreen() {
       {tab === 'corporate' && (
         <View style={styles.filters}>
           {FILTERS.map((f) => (
-            <Pressable key={f} onPress={() => setFilter(f)} accessibilityRole="button" accessibilityLabel={f === 'all' ? t('university.filterAll') : t(`university.types.${f}`)} style={[styles.filter, filter === f && styles.filterOn]}>
+            <Pressable
+              key={f}
+              onPress={() => setFilter(f)}
+              accessibilityRole="button"
+              accessibilityLabel={f === 'all' ? t('university.filterAll') : t(`university.types.${f}`)}
+              style={[styles.filter, filter === f && styles.filterOn]}
+            >
               <Ionicons name={f === 'all' ? 'list' : TYPE_ICON[f]} size={22} color={filter === f ? colors.white : colors.primary} />
             </Pressable>
           ))}
@@ -98,7 +121,12 @@ export default function CourseScreen() {
             const expanded = openSection === '*' || openSection === s.id;
             return (
               <View key={s.id} style={{ marginBottom: spacing.sm }}>
-                <Pressable style={styles.section} onPress={() => setOpen(expanded ? '' : s.id)} accessibilityRole="button" accessibilityState={{ expanded }}>
+                <Pressable
+                  style={styles.section}
+                  onPress={() => setOpen(expanded ? '' : s.id)}
+                  accessibilityRole="button"
+                  accessibilityState={{ expanded }}
+                >
                   <Ionicons name={expanded ? 'chevron-down' : 'chevron-forward'} size={16} color={colors.white} />
                   <Text style={styles.sectionText}>{tr(s.title)}</Text>
                 </Pressable>
@@ -108,7 +136,12 @@ export default function CourseScreen() {
                     const n = s.steps.indexOf(st) + 1;
                     return (
                       <View key={st.id} style={styles.step}>
-                        <Pressable style={{ flex: 1 }} onPress={() => openLesson(st.id)} accessibilityRole="button" accessibilityLabel={tr(st.title)}>
+                        <Pressable
+                          style={{ flex: 1 }}
+                          onPress={() => openLesson(st.id)}
+                          accessibilityRole="button"
+                          accessibilityLabel={tr(st.title)}
+                        >
                           <Text style={[styles.stepText, done && styles.stepDone]}>
                             <Text style={styles.stepNum}>{n}. </Text>
                             {tr(st.title)}
@@ -122,13 +155,33 @@ export default function CourseScreen() {
                           </View>
                         </Pressable>
                         <View style={styles.stepActions}>
-                          <RoundIcon icon="add" bg={colors.black} label={t('university.contribute')} onPress={() => router.push({ pathname: '/university/add-content', params: { courseId: c.id, sectionId: s.id } })} />
-                          <RoundIcon icon="chatbox-ellipses" bg={colors.black} label={t('university.discuss')} onPress={() => { setCommunitySection(s.id); setTab('community'); }} />
+                          <RoundIcon
+                            icon="add"
+                            bg={colors.black}
+                            label={t('university.contribute')}
+                            onPress={() =>
+                              router.push({ pathname: '/university/add-content', params: { courseId: c.id, sectionId: s.id } })
+                            }
+                          />
+                          <RoundIcon
+                            icon="chatbox-ellipses"
+                            bg={colors.black}
+                            label={t('university.discuss')}
+                            onPress={() => {
+                              setCommunitySection(s.id);
+                              setTab('community');
+                            }}
+                          />
                           <RoundIcon
                             icon="close"
                             bg={colors.red}
                             label={t('university.reportDifficulty')}
-                            onPress={() => outcome.mutate({ courseId: c.id, stepId: st.id, outcome: 'failed' }, { onSuccess: () => toast(t('university.reported')) })}
+                            onPress={() =>
+                              outcome.mutate(
+                                { courseId: c.id, stepId: st.id, outcome: 'failed' },
+                                { onSuccess: () => toast(t('university.reported')) },
+                              )
+                            }
                           />
                         </View>
                       </View>
@@ -155,7 +208,11 @@ export default function CourseScreen() {
               const count = (posts.data ?? []).filter((x) => x.sectionId === s.id).length;
               const active = s.id === sectionId;
               return (
-                <Pressable key={s.id} onPress={() => setCommunitySection(s.id)} style={[styles.sectionChip, active && styles.sectionChipOn]}>
+                <Pressable
+                  key={s.id}
+                  onPress={() => setCommunitySection(s.id)}
+                  style={[styles.sectionChip, active && styles.sectionChipOn]}
+                >
                   <Text style={[styles.sectionChipText, active && { color: colors.text }]}>/{tr(s.title)}</Text>
                   <View style={styles.countBubble}>
                     <Text style={styles.countText}>{count}</Text>
@@ -193,7 +250,13 @@ export default function CourseScreen() {
 
 function RoundIcon({ icon, bg, onPress, label }: { icon: keyof typeof Ionicons.glyphMap; bg: string; onPress: () => void; label: string }) {
   return (
-    <Pressable onPress={onPress} hitSlop={6} accessibilityRole="button" accessibilityLabel={label} style={[styles.round, { backgroundColor: bg }]}>
+    <Pressable
+      onPress={onPress}
+      hitSlop={6}
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      style={[styles.round, { backgroundColor: bg }]}
+    >
       <Ionicons name={icon} size={14} color={colors.white} />
     </Pressable>
   );
@@ -201,17 +264,51 @@ function RoundIcon({ icon, bg, onPress, label }: { icon: keyof typeof Ionicons.g
 
 const styles = StyleSheet.create({
   searchBar: { paddingHorizontal: spacing.lg, paddingVertical: spacing.sm, backgroundColor: colors.primarySoft },
-  searchInput: { backgroundColor: colors.white, borderRadius: radius.pill, paddingHorizontal: spacing.md, height: 38, fontFamily: fonts.regular },
-  filters: { flexDirection: 'row', justifyContent: 'space-around', paddingVertical: spacing.sm, borderBottomWidth: 1, borderColor: colors.border },
+  searchInput: {
+    backgroundColor: colors.white,
+    borderRadius: radius.pill,
+    paddingHorizontal: spacing.md,
+    height: 38,
+    fontFamily: fonts.regular,
+  },
+  filters: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingVertical: spacing.sm,
+    borderBottomWidth: 1,
+    borderColor: colors.border,
+  },
   filter: { padding: 6, borderRadius: radius.sm },
   filterOn: { backgroundColor: colors.primary },
   content: { padding: spacing.lg, paddingBottom: 120 },
-  indexRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderBottomWidth: 1, borderColor: colors.border, paddingBottom: 6 },
+  indexRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderColor: colors.border,
+    paddingBottom: 6,
+  },
   index: { fontFamily: fonts.regular, fontSize: fontSize.lg, color: colors.textMuted },
   courseTitle: { fontFamily: fonts.semibold, fontSize: fontSize.md, color: colors.navy, marginVertical: spacing.md },
-  section: { flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: colors.primary, paddingVertical: spacing.md, paddingHorizontal: spacing.md },
+  section: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: colors.primary,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.md,
+  },
   sectionText: { color: colors.white, fontFamily: fonts.semibold, fontSize: fontSize.md },
-  step: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, paddingVertical: spacing.sm, paddingHorizontal: spacing.md, borderBottomWidth: 1, borderColor: '#EEE' },
+  step: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.md,
+    borderBottomWidth: 1,
+    borderColor: '#EEE',
+  },
   stepNum: { fontFamily: fonts.semibold, color: colors.text },
   stepText: { fontFamily: fonts.regular, fontSize: fontSize.sm, color: '#555', lineHeight: 19 },
   stepDone: { color: colors.textMuted },
@@ -227,7 +324,20 @@ const styles = StyleSheet.create({
   countBubble: { borderWidth: 1, borderColor: colors.textMuted, borderRadius: 6, paddingHorizontal: 5 },
   countText: { fontFamily: fonts.medium, fontSize: 10, color: colors.textMuted },
   thread: { position: 'absolute', left: spacing.lg + 10, top: 120, bottom: 140, width: 2, backgroundColor: colors.border },
-  fab: { position: 'absolute', right: spacing.xl, bottom: 90, width: 56, height: 56, borderRadius: 28, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center', elevation: 6, shadowColor: '#000', shadowOpacity: 0.25, shadowRadius: 6 },
+  fab: {
+    position: 'absolute',
+    right: spacing.xl,
+    bottom: 90,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: colors.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 6,
+    shadowColor: '#000',
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+  },
   footer: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: spacing.xxl, paddingTop: spacing.sm },
 });
-

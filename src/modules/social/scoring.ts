@@ -55,9 +55,7 @@ export function contribution(userId: string, data: ScoringInput): Contribution {
   const myRatings = data.ratings.filter((r) => r.authorId === userId);
   const starsReceived = myRatings.reduce((acc, r) => acc + r.stars, 0);
   const completed = data.challenges.filter((c) => c.completedBy.includes(userId));
-  const stepsCompleted = data.progress
-    .filter((p) => p.userId === userId)
-    .reduce((acc, p) => acc + p.completedStepIds.length, 0);
+  const stepsCompleted = data.progress.filter((p) => p.userId === userId).reduce((acc, p) => acc + p.completedStepIds.length, 0);
   const trainingsCompleted = data.trainingSessions.filter((s) => s.userId === userId && s.finishedAt).length;
 
   const points =

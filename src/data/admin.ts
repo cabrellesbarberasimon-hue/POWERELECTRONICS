@@ -29,10 +29,45 @@ export const economicModel = {
 };
 
 export const progress: CourseProgress[] = [
-  { userId: 'u-trainee', courseId: 'c-hem', completedStepIds: ['hem-hw-1', 'hem-hw-2', 'hem-sw-1'], failedStepIds: ['hem-hw-4'], updatedAt: daysAgo(1) },
+  {
+    userId: 'u-trainee',
+    courseId: 'c-hem',
+    completedStepIds: ['hem-hw-1', 'hem-hw-2', 'hem-sw-1'],
+    failedStepIds: ['hem-hw-4'],
+    updatedAt: daysAgo(1),
+  },
   { userId: 'u-trainee', courseId: 'c-safety', completedStepIds: ['loto-1'], failedStepIds: [], updatedAt: daysAgo(4) },
-  { userId: 'u-tech', courseId: 'c-hem', completedStepIds: ['hem-hw-1', 'hem-hw-2', 'hem-hw-3', 'hem-hw-4', 'hem-sw-1', 'hem-sw-2', 'hem-sw-3', 'hem-mt-1', 'hem-mt-2', 'hem-mt-3'], failedStepIds: [], updatedAt: daysAgo(40) },
+  {
+    userId: 'u-tech',
+    courseId: 'c-hem',
+    completedStepIds: [
+      'hem-hw-1',
+      'hem-hw-2',
+      'hem-hw-3',
+      'hem-hw-4',
+      'hem-sw-1',
+      'hem-sw-2',
+      'hem-sw-3',
+      'hem-mt-1',
+      'hem-mt-2',
+      'hem-mt-3',
+    ],
+    failedStepIds: [],
+    updatedAt: daysAgo(40),
+  },
   { userId: 'u-tech', courseId: 'c-hemk-adv', completedStepIds: ['adv-1', 'adv-2'], failedStepIds: ['adv-4'], updatedAt: daysAgo(3) },
-  { userId: 'u-jorge', courseId: 'c-hem', completedStepIds: ['hem-hw-1', 'hem-hw-2', 'hem-hw-3', 'hem-hw-4', 'hem-sw-1'], failedStepIds: [], updatedAt: daysAgo(8) },
-  { userId: 'u-julia', courseId: 'c-safety', completedStepIds: ['loto-1', 'loto-2', 'loto-3', 'loto-4'], failedStepIds: [], updatedAt: daysAgo(12) },
+  {
+    userId: 'u-jorge',
+    courseId: 'c-hem',
+    completedStepIds: ['hem-hw-1', 'hem-hw-2', 'hem-hw-3', 'hem-hw-4', 'hem-sw-1'],
+    failedStepIds: [],
+    updatedAt: daysAgo(8),
+  },
+  {
+    userId: 'u-julia',
+    courseId: 'c-safety',
+    completedStepIds: ['loto-1', 'loto-2', 'loto-3', 'loto-4'],
+    failedStepIds: [],
+    updatedAt: daysAgo(12),
+  },
 ];

@@ -53,7 +53,13 @@ export default function University() {
         <View style={styles.body}>
           <View style={styles.search}>
             <Ionicons name="search" size={18} color={colors.textMuted} />
-            <TextInput value={query} onChangeText={setQuery} placeholder={t('university.searchCourses')} style={styles.searchInput} accessibilityLabel={t('common.search')} />
+            <TextInput
+              value={query}
+              onChangeText={setQuery}
+              placeholder={t('university.searchCourses')}
+              style={styles.searchInput}
+              accessibilityLabel={t('common.search')}
+            />
             {!!query && (
               <Pressable onPress={() => setQuery('')} accessibilityLabel={t('common.close')}>
                 <Ionicons name="close-circle" size={18} color={colors.textMuted} />
@@ -65,7 +71,14 @@ export default function University() {
             <View style={{ flex: 1, gap: spacing.md }}>
               {search.data?.length === 0 && <EmptyState text={t('university.noCourses')} icon="search" />}
               {search.data?.map((c) => (
-                <CourseRow key={c.id} course={c} percent={progressPercent(c, progress.data.find((p) => p.courseId === c.id))} />
+                <CourseRow
+                  key={c.id}
+                  course={c}
+                  percent={progressPercent(
+                    c,
+                    progress.data.find((p) => p.courseId === c.id),
+                  )}
+                />
               ))}
             </View>
           ) : (
@@ -95,13 +108,20 @@ export default function University() {
                 }
                 footer={
                   <Text style={styles.footer}>
-                    {advancedLocked ? `🔒 ${t('university.locked', { percent: ADVANCED_UNLOCK_PERCENT })}` : t('university.levelProgress', { percent: advanced })}
+                    {advancedLocked
+                      ? `🔒 ${t('university.locked', { percent: ADVANCED_UNLOCK_PERCENT })}`
+                      : t('university.levelProgress', { percent: advanced })}
                   </Text>
                 }
               />
             </View>
           )}
-          <CTAButton testID="training-experience" label={t('university.trainingExperience')} onPress={() => router.push('/training')} style={{ marginTop: spacing.lg, marginBottom: insets.bottom + spacing.sm }} />
+          <CTAButton
+            testID="training-experience"
+            label={t('university.trainingExperience')}
+            onPress={() => router.push('/training')}
+            style={{ marginTop: spacing.lg, marginBottom: insets.bottom + spacing.sm }}
+          />
         </View>
       ) : (
         <View style={[styles.body, { gap: spacing.lg }]}>
@@ -112,7 +132,11 @@ export default function University() {
             return (
               <Card key={level} onPress={() => openLevel(level)}>
                 <View style={styles.levelHead}>
-                  <Ionicons name={locked ? 'lock-closed' : level === 'basic' ? 'ribbon-outline' : 'trophy-outline'} size={26} color={locked ? colors.textMuted : colors.primary} />
+                  <Ionicons
+                    name={locked ? 'lock-closed' : level === 'basic' ? 'ribbon-outline' : 'trophy-outline'}
+                    size={26}
+                    color={locked ? colors.textMuted : colors.primary}
+                  />
                   <Text style={styles.levelTitle}>{t(level === 'basic' ? 'university.basicShort' : 'university.advancedShort')}</Text>
                   <Text style={styles.levelPct}>{pct}%</Text>
                 </View>
@@ -120,10 +144,17 @@ export default function University() {
                 {locked && <Text style={styles.lockText}>{t('university.locked', { percent: ADVANCED_UNLOCK_PERCENT })}</Text>}
                 <View style={{ marginTop: spacing.md, gap: 6 }}>
                   {levelCourses.map((c) => {
-                    const p = progressPercent(c, progress.data.find((x) => x.courseId === c.id));
+                    const p = progressPercent(
+                      c,
+                      progress.data.find((x) => x.courseId === c.id),
+                    );
                     return (
                       <View key={c.id} style={styles.levelCourse}>
-                        <Ionicons name={p === 100 ? 'checkmark-circle' : 'ellipse-outline'} size={16} color={p === 100 ? colors.green : colors.border} />
+                        <Ionicons
+                          name={p === 100 ? 'checkmark-circle' : 'ellipse-outline'}
+                          size={16}
+                          color={p === 100 ? colors.green : colors.border}
+                        />
                         <Text style={styles.levelCourseText} numberOfLines={1}>
                           {c.code} · {p}%
                         </Text>
@@ -144,7 +175,16 @@ export default function University() {
 const styles = StyleSheet.create({
   home: { paddingHorizontal: spacing.lg, justifyContent: 'center', backgroundColor: colors.darkTab },
   body: { flex: 1, padding: spacing.lg },
-  search: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, backgroundColor: colors.surfaceAlt, borderRadius: radius.pill, paddingHorizontal: spacing.md, marginBottom: spacing.lg, height: 42 },
+  search: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    backgroundColor: colors.surfaceAlt,
+    borderRadius: radius.pill,
+    paddingHorizontal: spacing.md,
+    marginBottom: spacing.lg,
+    height: 42,
+  },
   searchInput: { flex: 1, fontFamily: fonts.regular, fontSize: fontSize.sm, color: colors.text },
   circle: { width: 96, height: 96, borderRadius: 48, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center' },
   footer: { fontFamily: fonts.regular, fontSize: fontSize.xs, color: colors.textMuted, textAlign: 'center' },

@@ -49,7 +49,11 @@ export default function VideoCall() {
         const ang = (i / 24) * Math.PI * 2;
         return `${i ? 'L' : 'M'}${(cx + r * Math.cos(ang)).toFixed(1)} ${(cy + r * Math.sin(ang)).toFixed(1)}`;
       }).join(' ');
-      setStrokes((s) => [...s, { d: circle, color: colors.orange }, { d: `M${cx + 90} ${cy - 80} L${cx + r + 6} ${cy - 10}`, color: colors.orange }]);
+      setStrokes((s) => [
+        ...s,
+        { d: circle, color: colors.orange },
+        { d: `M${cx + 90} ${cy - 80} L${cx + r + 6} ${cy - 10}`, color: colors.orange },
+      ]);
       setRemoteNote(true);
     }, 2500);
     return () => {
@@ -65,7 +69,13 @@ export default function VideoCall() {
     <View style={styles.root}>
       <View style={{ flex: 1 }} onLayout={(e) => setSize({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })}>
         {camera ? (
-          <ARView equipment={equipment.data} hotspots={[{ partId: 'p-lever', pulse: true }]} drawing={annotate} strokes={strokes} onStrokes={setStrokes} />
+          <ARView
+            equipment={equipment.data}
+            hotspots={[{ partId: 'p-lever', pulse: true }]}
+            drawing={annotate}
+            strokes={strokes}
+            onStrokes={setStrokes}
+          />
         ) : (
           <View style={[StyleSheet.absoluteFill, { backgroundColor: colors.navy }]} />
         )}
@@ -96,11 +106,30 @@ export default function VideoCall() {
   );
 }
 
-function Control({ icon, label, onPress, on, danger, testID }: { icon: keyof typeof Ionicons.glyphMap; label: string; onPress: () => void; on?: boolean; danger?: boolean; testID?: string }) {
+function Control({
+  icon,
+  label,
+  onPress,
+  on,
+  danger,
+  testID,
+}: {
+  icon: keyof typeof Ionicons.glyphMap;
+  label: string;
+  onPress: () => void;
+  on?: boolean;
+  danger?: boolean;
+  testID?: string;
+}) {
   return (
     <Pressable onPress={onPress} style={styles.control} accessibilityRole="button" accessibilityLabel={label} testID={testID}>
       <View style={[styles.controlCircle, on && { backgroundColor: colors.white }, danger && { backgroundColor: colors.red }]}>
-        <Ionicons name={icon} size={24} color={on ? colors.navy : colors.white} style={danger ? { transform: [{ rotate: '135deg' }] } : undefined} />
+        <Ionicons
+          name={icon}
+          size={24}
+          color={on ? colors.navy : colors.white}
+          style={danger ? { transform: [{ rotate: '135deg' }] } : undefined}
+        />
       </View>
       <Text style={styles.controlText}>{label}</Text>
     </Pressable>
@@ -109,14 +138,58 @@ function Control({ icon, label, onPress, on, danger, testID }: { icon: keyof typ
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.black },
-  remote: { position: 'absolute', right: spacing.lg, width: 130, backgroundColor: 'rgba(6,32,91,0.85)', borderRadius: radius.lg, padding: spacing.md, alignItems: 'center', gap: 4 },
+  remote: {
+    position: 'absolute',
+    right: spacing.lg,
+    width: 130,
+    backgroundColor: 'rgba(6,32,91,0.85)',
+    borderRadius: radius.lg,
+    padding: spacing.md,
+    alignItems: 'center',
+    gap: 4,
+  },
   remoteName: { color: colors.white, fontFamily: fonts.semibold, fontSize: fontSize.sm, textAlign: 'center' },
   remoteState: { color: 'rgba(255,255,255,0.8)', fontFamily: fonts.regular, fontSize: 10 },
-  banner: { position: 'absolute', left: spacing.lg, right: spacing.lg, flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: colors.orange, borderRadius: radius.pill, paddingHorizontal: spacing.md, paddingVertical: 6 },
+  banner: {
+    position: 'absolute',
+    left: spacing.lg,
+    right: spacing.lg,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: colors.orange,
+    borderRadius: radius.pill,
+    paddingHorizontal: spacing.md,
+    paddingVertical: 6,
+  },
   bannerText: { color: colors.white, fontFamily: fonts.medium, fontSize: 12, flex: 1 },
-  controls: { position: 'absolute', left: 0, right: 0, bottom: 0, flexDirection: 'row', justifyContent: 'space-around', paddingTop: spacing.lg, backgroundColor: 'rgba(0,0,0,0.55)' },
+  controls: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingTop: spacing.lg,
+    backgroundColor: 'rgba(0,0,0,0.55)',
+  },
   control: { alignItems: 'center', gap: 4, width: 76 },
-  controlCircle: { width: 54, height: 54, borderRadius: 27, backgroundColor: 'rgba(255,255,255,0.2)', alignItems: 'center', justifyContent: 'center' },
+  controlCircle: {
+    width: 54,
+    height: 54,
+    borderRadius: 27,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   controlText: { color: colors.white, fontFamily: fonts.medium, fontSize: 11 },
-  note: { position: 'absolute', left: spacing.lg, right: spacing.lg, color: 'rgba(0,0,0,0.55)', fontFamily: fonts.regular, fontSize: 10, textAlign: 'center' },
+  note: {
+    position: 'absolute',
+    left: spacing.lg,
+    right: spacing.lg,
+    color: 'rgba(0,0,0,0.55)',
+    fontFamily: fonts.regular,
+    fontSize: 10,
+    textAlign: 'center',
+  },
 });

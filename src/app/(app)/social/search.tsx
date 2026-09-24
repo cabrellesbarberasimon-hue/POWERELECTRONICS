@@ -11,7 +11,9 @@ export default function SocialSearch() {
   const [q, setQ] = useState('');
   const posts = usePosts(q.trim() ? { query: q } : undefined);
   const users = useUsers();
-  const people = q.trim() ? (users.data ?? []).filter((u) => `${u.name} ${u.country} ${u.department}`.toLowerCase().includes(q.trim().toLowerCase())) : [];
+  const people = q.trim()
+    ? (users.data ?? []).filter((u) => `${u.name} ${u.country} ${u.department}`.toLowerCase().includes(q.trim().toLowerCase()))
+    : [];
 
   return (
     <Screen header={<Header title={t('common.search')} />}>
@@ -22,7 +24,11 @@ export default function SocialSearch() {
         <>
           <SectionTitle>{t('social.people')}</SectionTitle>
           {people.map((u) => (
-            <Pressable key={u.id} style={styles.row} onPress={() => router.push({ pathname: '/social/profile/[id]', params: { id: u.id } })}>
+            <Pressable
+              key={u.id}
+              style={styles.row}
+              onPress={() => router.push({ pathname: '/social/profile/[id]', params: { id: u.id } })}
+            >
               <Avatar user={u} size={36} />
               <View>
                 <Text style={styles.name}>{u.name}</Text>
@@ -51,7 +57,13 @@ export default function SocialSearch() {
 }
 
 const styles = StyleSheet.create({
-  input: { backgroundColor: colors.surfaceAlt, borderRadius: radius.pill, paddingHorizontal: spacing.lg, height: 44, fontFamily: fonts.regular },
+  input: {
+    backgroundColor: colors.surfaceAlt,
+    borderRadius: radius.pill,
+    paddingHorizontal: spacing.lg,
+    height: 44,
+    fontFamily: fonts.regular,
+  },
   row: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, paddingVertical: spacing.sm },
   name: { fontFamily: fonts.semibold, fontSize: fontSize.sm, color: colors.text },
   meta: { fontFamily: fonts.regular, fontSize: fontSize.xs, color: colors.textMuted },

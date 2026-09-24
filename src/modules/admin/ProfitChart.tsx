@@ -32,7 +32,10 @@ export function ProfitChart({ rows, width }: { rows: ProjectionYear[]; width: nu
   const y = (v: number) => pad.top + ((max - v) / span) * (height - pad.top - pad.bottom);
   const band = (width - pad.left - pad.right) / rows.length;
   const zero = y(0);
-  const extremes = new Set([rows.reduce((a, b) => (b.profit < a.profit ? b : a)).year, rows.reduce((a, b) => (b.profit > a.profit ? b : a)).year]);
+  const extremes = new Set([
+    rows.reduce((a, b) => (b.profit < a.profit ? b : a)).year,
+    rows.reduce((a, b) => (b.profit > a.profit ? b : a)).year,
+  ]);
   const sel = rows.find((r) => r.year === active);
 
   return (
@@ -52,13 +55,22 @@ export function ProfitChart({ rows, width }: { rows: ProjectionYear[]; width: nu
             const labelY = r.profit >= 0 ? top - 5 : top + 12;
             return (
               <SvgGroup key={r.year}>
-                {r.profit !== 0 && <Path d={column(x, zero, top)} fill={r.profit >= 0 ? POS : NEG} opacity={active && active !== r.year ? 0.45 : 1} />}
+                {r.profit !== 0 && (
+                  <Path d={column(x, zero, top)} fill={r.profit >= 0 ? POS : NEG} opacity={active && active !== r.year ? 0.45 : 1} />
+                )}
                 {extremes.has(r.year) && r.profit !== 0 && (
                   <SvgText x={x + BAR / 2} y={labelY} fontSize={10} fill={colors.text} textAnchor="middle" fontFamily={fonts.medium}>
                     {`${Math.round(r.profit / 1000)}k`}
                   </SvgText>
                 )}
-                <SvgText x={x + BAR / 2} y={height - 6} fontSize={10} fill={colors.textMuted} textAnchor="middle" fontFamily={fonts.regular}>
+                <SvgText
+                  x={x + BAR / 2}
+                  y={height - 6}
+                  fontSize={10}
+                  fill={colors.textMuted}
+                  textAnchor="middle"
+                  fontFamily={fonts.regular}
+                >
                   {`${t('admin.year').charAt(0)}${r.year}`}
                 </SvgText>
               </SvgGroup>
@@ -68,7 +80,13 @@ export function ProfitChart({ rows, width }: { rows: ProjectionYear[]; width: nu
         {/* Hit targets wider than the marks */}
         <View style={[StyleSheet.absoluteFill, { flexDirection: 'row', paddingHorizontal: pad.left }]}>
           {rows.map((r) => (
-            <Pressable key={r.year} style={{ flex: 1 }} onPress={() => setActive(active === r.year ? null : r.year)} accessibilityRole="button" accessibilityLabel={`${t('admin.year')} ${r.year}: ${formatEur(r.profit)}`} />
+            <Pressable
+              key={r.year}
+              style={{ flex: 1 }}
+              onPress={() => setActive(active === r.year ? null : r.year)}
+              accessibilityRole="button"
+              accessibilityLabel={`${t('admin.year')} ${r.year}: ${formatEur(r.profit)}`}
+            />
           ))}
         </View>
       </View>

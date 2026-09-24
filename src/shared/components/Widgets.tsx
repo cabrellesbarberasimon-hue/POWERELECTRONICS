@@ -6,7 +6,19 @@ import type { Parameter, User } from '@/types/domain';
 import { colors, fonts, fontSize, radius, shadow, spacing } from '@/theme';
 
 /** Circular progress indicator ("0%", "5%" in the mockups). */
-export function ProgressRing({ percent, size = 44, stroke = 5, color = colors.primary, label = true }: { percent: number; size?: number; stroke?: number; color?: string; label?: boolean }) {
+export function ProgressRing({
+  percent,
+  size = 44,
+  stroke = 5,
+  color = colors.primary,
+  label = true,
+}: {
+  percent: number;
+  size?: number;
+  stroke?: number;
+  color?: string;
+  label?: boolean;
+}) {
   const r = (size - stroke) / 2;
   const c = 2 * Math.PI * r;
   const p = Math.max(0, Math.min(100, percent));
@@ -175,7 +187,17 @@ export function Card({ children, style, onPress }: { children: ReactNode; style?
   return <View style={[styles.card, style]}>{children}</View>;
 }
 
-export function Chip({ label, active, onPress, icon }: { label: string; active?: boolean; onPress?: () => void; icon?: keyof typeof Ionicons.glyphMap }) {
+export function Chip({
+  label,
+  active,
+  onPress,
+  icon,
+}: {
+  label: string;
+  active?: boolean;
+  onPress?: () => void;
+  icon?: keyof typeof Ionicons.glyphMap;
+}) {
   return (
     <Pressable
       onPress={onPress}
@@ -193,7 +215,13 @@ export function Stars({ value, size = 18, onChange }: { value: number; size?: nu
   return (
     <View style={{ flexDirection: 'row', gap: 2 }} accessibilityLabel={`${value} stars`}>
       {([1, 2, 3, 4, 5] as const).map((i) => (
-        <Pressable key={i} disabled={!onChange} onPress={() => onChange?.(i)} hitSlop={4} accessibilityRole={onChange ? 'button' : undefined}>
+        <Pressable
+          key={i}
+          disabled={!onChange}
+          onPress={() => onChange?.(i)}
+          hitSlop={4}
+          accessibilityRole={onChange ? 'button' : undefined}
+        >
           <Ionicons name={i <= Math.round(value) ? 'star' : 'star-outline'} size={size} color={colors.yellow} />
         </Pressable>
       ))}
@@ -220,9 +248,21 @@ export function SectionTitle({ children, right }: { children: ReactNode; right?:
 }
 
 /** Blue circle with a white icon, as used across the mockups. */
-export function IconCircle({ icon, size = 56, color = colors.primary, iconColor = colors.white }: { icon: keyof typeof Ionicons.glyphMap; size?: number; color?: string; iconColor?: string }) {
+export function IconCircle({
+  icon,
+  size = 56,
+  color = colors.primary,
+  iconColor = colors.white,
+}: {
+  icon: keyof typeof Ionicons.glyphMap;
+  size?: number;
+  color?: string;
+  iconColor?: string;
+}) {
   return (
-    <View style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: color, alignItems: 'center', justifyContent: 'center' }}>
+    <View
+      style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: color, alignItems: 'center', justifyContent: 'center' }}
+    >
       <Ionicons name={icon} size={size * 0.5} color={iconColor} />
     </View>
   );
@@ -268,6 +308,12 @@ const styles = StyleSheet.create({
   chipText: { fontFamily: fonts.medium, fontSize: fontSize.sm, color: colors.text },
   empty: { alignItems: 'center', padding: spacing.xxl, gap: spacing.md },
   emptyText: { fontFamily: fonts.regular, fontSize: fontSize.md, color: colors.textMuted, textAlign: 'center' },
-  sectionTitle: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: spacing.xl, marginBottom: spacing.sm },
+  sectionTitle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: spacing.xl,
+    marginBottom: spacing.sm,
+  },
   sectionTitleText: { fontFamily: fonts.semibold, fontSize: fontSize.lg, color: colors.text },
 });

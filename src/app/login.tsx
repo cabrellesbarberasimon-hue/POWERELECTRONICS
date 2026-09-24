@@ -62,14 +62,22 @@ export default function Login() {
 
   return (
     <KeyboardAvoidingView style={{ flex: 1, backgroundColor: colors.white }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-      <ScrollView contentContainerStyle={[styles.root, { paddingTop: insets.top + spacing.lg, paddingBottom: insets.bottom + spacing.xl }]} keyboardShouldPersistTaps="handled">
+      <ScrollView
+        contentContainerStyle={[styles.root, { paddingTop: insets.top + spacing.lg, paddingBottom: insets.bottom + spacing.xl }]}
+        keyboardShouldPersistTaps="handled"
+      >
         <Pressable onPress={switchLocale} style={styles.lang} accessibilityRole="button" accessibilityLabel={t('common.language')}>
           <Text style={styles.langText}>{locale === 'en' ? 'ES' : 'EN'}</Text>
         </Pressable>
 
         <Pressable onPress={biometric} accessibilityRole="button" accessibilityLabel={t('auth.biometric')} style={styles.finger}>
           <Svg width={150} height={150} viewBox="0 0 150 150" style={StyleSheet.absoluteFill}>
-            {['M8 45 V16 Q8 8 16 8 H45', 'M105 8 H134 Q142 8 142 16 V45', 'M142 105 V134 Q142 142 134 142 H105', 'M45 142 H16 Q8 142 8 134 V105'].map((d) => (
+            {[
+              'M8 45 V16 Q8 8 16 8 H45',
+              'M105 8 H134 Q142 8 142 16 V45',
+              'M142 105 V134 Q142 142 134 142 H105',
+              'M45 142 H16 Q8 142 8 134 V105',
+            ].map((d) => (
               <Path key={d} d={d} stroke={colors.primary} strokeWidth={9} strokeLinecap="round" fill="none" />
             ))}
           </Svg>
@@ -109,7 +117,17 @@ export default function Login() {
         <Text style={styles.demoTitle}>{t('auth.demoAccounts')}</Text>
         <View style={styles.demo}>
           {DEMO.map((u) => (
-            <Chip key={u} label={u} icon="person-circle-outline" active={username === u} onPress={() => { setUsername(u); setPassword('sense'); submit(u, 'sense'); }} />
+            <Chip
+              key={u}
+              label={u}
+              icon="person-circle-outline"
+              active={username === u}
+              onPress={() => {
+                setUsername(u);
+                setPassword('sense');
+                submit(u, 'sense');
+              }}
+            />
           ))}
         </View>
       </ScrollView>
@@ -119,14 +137,29 @@ export default function Login() {
 
 const styles = StyleSheet.create({
   root: { alignItems: 'center', paddingHorizontal: spacing.xl },
-  lang: { alignSelf: 'flex-end', borderWidth: 1, borderColor: colors.primary, borderRadius: radius.pill, paddingHorizontal: 12, paddingVertical: 4 },
+  lang: {
+    alignSelf: 'flex-end',
+    borderWidth: 1,
+    borderColor: colors.primary,
+    borderRadius: radius.pill,
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+  },
   langText: { color: colors.primary, fontFamily: fonts.semibold, fontSize: fontSize.sm },
   finger: { width: 150, height: 150, alignItems: 'center', justifyContent: 'center', marginTop: spacing.lg },
   bioHint: { color: colors.textMuted, fontFamily: fonts.regular, fontSize: fontSize.xs, marginTop: spacing.sm },
   title: { color: colors.primary, fontFamily: fonts.semibold, fontSize: 34, marginTop: spacing.lg },
   form: { alignSelf: 'stretch', maxWidth: 420, width: '100%', marginTop: spacing.md },
   label: { fontFamily: fonts.semibold, fontSize: fontSize.lg, color: '#4B4B4B', marginTop: spacing.md, marginBottom: 4 },
-  input: { borderWidth: 1.5, borderColor: '#B8B8B8', height: 48, paddingHorizontal: spacing.md, fontFamily: fonts.regular, fontSize: fontSize.md, color: colors.text },
+  input: {
+    borderWidth: 1.5,
+    borderColor: '#B8B8B8',
+    height: 48,
+    paddingHorizontal: spacing.md,
+    fontFamily: fonts.regular,
+    fontSize: fontSize.md,
+    color: colors.text,
+  },
   error: { color: colors.red, fontFamily: fonts.medium, marginTop: spacing.sm },
   button: { alignSelf: 'center', minWidth: 180, marginTop: spacing.xl },
   demoTitle: { marginTop: spacing.xxl, color: colors.textMuted, fontFamily: fonts.medium, fontSize: fontSize.xs },

@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { PanResponder, View } from 'react-native';
 import Svg, { Polygon } from 'react-native-svg';
 import { colors } from '@/theme';
@@ -44,18 +44,22 @@ function shade(hex: string, f: number) {
  */
 export function Model3D({ size = 260 }: { size?: number }) {
   const [rot, setRot] = useState({ y: 0.6, x: -0.45 });
-  const start = useRef(rot);
-  const responder = useRef(
-    PanResponder.create({
+  const [responder] = useState(() => {
+    // Incremental deltas kept in the closure: no refs read during render.
+    let last = { dx: 0, dy: 0 };
+    return PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderGrant: () => {
-        start.current = rotRef.current;
+        last = { dx: 0, dy: 0 };
       },
-      onPanResponderMove: (_, g) => setRot({ y: start.current.y + g.dx / 90, x: Math.max(-1.3, Math.min(1.3, start.current.x - g.dy / 90)) }),
-    }),
-  ).current;
-  const rotRef = useRef(rot);
-  rotRef.current = rot;
+      onPanResponderMove: (_, g) => {
+        const ddx = g.dx - last.dx;
+        const ddy = g.dy - last.dy;
+        last = { dx: g.dx, dy: g.dy };
+        setRot((r) => ({ y: r.y + ddx / 90, x: Math.max(-1.3, Math.min(1.3, r.x - ddy / 90)) }));
+      },
+    });
+  });
 
   const polys = useMemo(() => {
     const cy = Math.cos(rot.y);

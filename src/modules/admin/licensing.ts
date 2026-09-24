@@ -3,8 +3,7 @@ import type { LicenseTier } from '@/types/domain';
 export function tierForEmployees(tiers: LicenseTier[], employees: number): LicenseTier {
   const sorted = [...tiers].sort((a, b) => a.minEmployees - b.minEmployees);
   return (
-    sorted.find((t) => employees >= t.minEmployees && (t.maxEmployees === null || employees < t.maxEmployees)) ??
-    sorted[sorted.length - 1]
+    sorted.find((t) => employees >= t.minEmployees && (t.maxEmployees === null || employees < t.maxEmployees)) ?? sorted[sorted.length - 1]
   );
 }
 

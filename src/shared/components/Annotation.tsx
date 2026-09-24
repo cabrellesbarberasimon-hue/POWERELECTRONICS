@@ -1,5 +1,5 @@
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useRef, useState } from 'react';
+import { useState, type Dispatch, type SetStateAction } from 'react';
 import { PanResponder, Pressable, StyleSheet, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { colors, spacing } from '@/theme';
@@ -54,34 +54,45 @@ export interface Stroke {
  * Freehand drawing layer. Used for AR annotations (the instructor draws on
  * the trainee's view during a call) and to annotate captured content.
  */
-export function DrawingLayer({ enabled, color = colors.orange, strokes, onChange }: { enabled: boolean; color?: string; strokes: Stroke[]; onChange: (s: Stroke[]) => void }) {
-  const current = useRef<string>('');
+export function DrawingLayer({
+  enabled,
+  color = colors.orange,
+  strokes,
+  onChange,
+}: {
+  enabled: boolean;
+  color?: string;
+  strokes: Stroke[];
+  /** A state setter (accepts updaters), e.g. the `setStrokes` of useState. */
+  onChange: Dispatch<SetStateAction<Stroke[]>>;
+}) {
   const [live, setLive] = useState('');
-  const latest = useRef({ strokes, onChange, color });
-  latest.current = { strokes, onChange, color };
 
-  const responder = useRef(
-    PanResponder.create({
+  // Created once: the path being drawn lives in the closure, and strokes are
+  // appended with an updater so no stale props or refs are read.
+  const [responder] = useState(() => {
+    let path = '';
+    return PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: () => true,
       onPanResponderGrant: (e) => {
         const { locationX: x, locationY: y } = e.nativeEvent;
-        current.current = `M${x.toFixed(1)} ${y.toFixed(1)}`;
-        setLive(current.current);
+        path = `M${x.toFixed(1)} ${y.toFixed(1)}`;
+        setLive(path);
       },
       onPanResponderMove: (e) => {
         const { locationX: x, locationY: y } = e.nativeEvent;
-        current.current += ` L${x.toFixed(1)} ${y.toFixed(1)}`;
-        setLive(current.current);
+        path += ` L${x.toFixed(1)} ${y.toFixed(1)}`;
+        setLive(path);
       },
       onPanResponderRelease: () => {
-        const { strokes: s, onChange: change, color: c } = latest.current;
-        if (current.current) change([...s, { d: current.current, color: c }]);
-        current.current = '';
+        const d = path;
+        if (d) onChange((s) => [...s, { d, color }]);
+        path = '';
         setLive('');
       },
-    }),
-  ).current;
+    });
+  });
 
   return (
     <View style={StyleSheet.absoluteFill} pointerEvents={enabled ? 'auto' : 'none'} {...(enabled ? responder.panHandlers : {})}>
@@ -96,7 +107,13 @@ export function DrawingLayer({ enabled, color = colors.orange, strokes, onChange
 }
 
 const styles = StyleSheet.create({
-  toolbar: { flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', backgroundColor: colors.primary, paddingVertical: spacing.sm },
+  toolbar: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: colors.primary,
+    paddingVertical: spacing.sm,
+  },
   tool: { padding: spacing.sm, borderRadius: 10 },
   toolOn: { backgroundColor: colors.white },
 });

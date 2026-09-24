@@ -5,6 +5,7 @@ import en from './en';
 import es from './es';
 
 // The UI defaults to English (as in the mockups); Spanish is selectable.
+// eslint-disable-next-line import/no-named-as-default-member -- i18next's documented setup API
 i18n.use(initReactI18next).init({
   resources: { en: { translation: en }, es: { translation: es } },
   lng: 'en',
@@ -19,7 +20,7 @@ export const currentLocale = (): Locale => (i18n.language === 'es' ? 'es' : 'en'
 
 /** Resolve bilingual seed content or plain user content. */
 export const tr = (text: Text | undefined, locale: Locale = currentLocale()): string =>
-  text === undefined ? '' : typeof text === 'string' ? text : text[locale] ?? text.en;
+  text === undefined ? '' : typeof text === 'string' ? text : (text[locale] ?? text.en);
 
 /** Hook returning `t`, `tr` bound to the active locale and date helpers. */
 export function useI18n() {

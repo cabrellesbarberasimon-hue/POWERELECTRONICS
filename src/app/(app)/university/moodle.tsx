@@ -64,7 +64,15 @@ export default function MoodleContent() {
       <Text style={styles.label}>{t('moodle.course')}</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chips}>
         {courses.data?.map((c) => (
-          <Chip key={c.id} label={c.code} active={c.id === courseId} onPress={() => { setCourseId(c.id); setSectionId(''); }} />
+          <Chip
+            key={c.id}
+            label={c.code}
+            active={c.id === courseId}
+            onPress={() => {
+              setCourseId(c.id);
+              setSectionId('');
+            }}
+          />
         ))}
       </ScrollView>
 
@@ -87,16 +95,46 @@ export default function MoodleContent() {
       <Text style={styles.label}>{t('moodle.lessonBody')}</Text>
       <TextInput value={body} onChangeText={setBody} style={[styles.input, { height: 120, textAlignVertical: 'top' }]} multiline />
       <Text style={styles.label}>{t('moodle.moodleUrl')}</Text>
-      <TextInput value={url} onChangeText={setUrl} style={styles.input} autoCapitalize="none" placeholder="https://moodle.power-electronics.com/…" />
+      <TextInput
+        value={url}
+        onChangeText={setUrl}
+        style={styles.input}
+        autoCapitalize="none"
+        placeholder="https://moodle.power-electronics.com/…"
+      />
 
-      <PrimaryButton label={t('common.publish')} icon="cloud-upload-outline" onPress={submit} disabled={!title.trim()} loading={addLesson.isPending || createPost.isPending} style={{ marginTop: spacing.xl }} />
+      <PrimaryButton
+        label={t('common.publish')}
+        icon="cloud-upload-outline"
+        onPress={submit}
+        disabled={!title.trim()}
+        loading={addLesson.isPending || createPost.isPending}
+        style={{ marginTop: spacing.xl }}
+      />
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  hint: { fontFamily: fonts.regular, fontSize: fontSize.sm, color: colors.textMuted, backgroundColor: colors.primarySoft, padding: spacing.md, borderRadius: radius.md },
+  hint: {
+    fontFamily: fonts.regular,
+    fontSize: fontSize.sm,
+    color: colors.textMuted,
+    backgroundColor: colors.primarySoft,
+    padding: spacing.md,
+    borderRadius: radius.md,
+  },
   label: { fontFamily: fonts.semibold, fontSize: fontSize.sm, color: colors.text, marginTop: spacing.lg, marginBottom: spacing.sm },
   chips: { flexDirection: 'row', gap: spacing.sm },
-  input: { borderWidth: 1, borderColor: colors.border, borderRadius: radius.md, paddingHorizontal: spacing.md, paddingVertical: spacing.sm, fontFamily: fonts.regular, fontSize: fontSize.md, color: colors.text, minHeight: 44 },
+  input: {
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: radius.md,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    fontFamily: fonts.regular,
+    fontSize: fontSize.md,
+    color: colors.text,
+    minHeight: 44,
+  },
 });

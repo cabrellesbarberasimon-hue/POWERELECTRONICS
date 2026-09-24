@@ -15,7 +15,14 @@ const matches = (q: string | undefined, ...fields: (Localized | string)[]) =>
 
 const scoringInput = () => {
   const db = getDb();
-  return { posts: db.posts, ratings: db.ratings, challenges: db.challenges, progress: db.progress, trainingSessions: db.trainingSessions, courses: db.courses };
+  return {
+    posts: db.posts,
+    ratings: db.ratings,
+    challenges: db.challenges,
+    progress: db.progress,
+    trainingSessions: db.trainingSessions,
+    courses: db.courses,
+  };
 };
 
 class NotFound extends Error {
@@ -210,7 +217,15 @@ export const mockServices: Services = {
     async createChallenge(draft, createdBy) {
       await latency();
       const [start, end] = periodBounds(draft.period);
-      const challenge = { ...draft, id: uid('ch'), createdBy, startsAt: start.toISOString(), endsAt: end.toISOString(), participants: [], completedBy: [] };
+      const challenge = {
+        ...draft,
+        id: uid('ch'),
+        createdBy,
+        startsAt: start.toISOString(),
+        endsAt: end.toISOString(),
+        participants: [],
+        completedBy: [],
+      };
       mutate((db) => db.challenges.push(challenge));
       return copy(challenge);
     },
@@ -273,7 +288,11 @@ export const mockServices: Services = {
     },
     async listHistory(equipmentId) {
       await latency(60);
-      return copy(getDb().history.filter((h) => h.equipmentId === equipmentId).sort((a, b) => b.date.localeCompare(a.date)));
+      return copy(
+        getDb()
+          .history.filter((h) => h.equipmentId === equipmentId)
+          .sort((a, b) => b.date.localeCompare(a.date)),
+      );
     },
     async listTeamNotifications(equipmentId, filter = {}) {
       await latency(60);

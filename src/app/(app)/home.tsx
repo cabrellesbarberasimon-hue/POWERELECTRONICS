@@ -60,8 +60,18 @@ export default function Home() {
             onPress={() => router.push('/social')}
             icon={
               <Circle>
-                <MaterialCommunityIcons name="share-variant-outline" size={44} color={colors.white} style={{ marginLeft: -8, marginTop: -8 }} />
-                <MaterialCommunityIcons name="account-circle" size={30} color={colors.white} style={{ position: 'absolute', right: 14, bottom: 12 }} />
+                <MaterialCommunityIcons
+                  name="share-variant-outline"
+                  size={44}
+                  color={colors.white}
+                  style={{ marginLeft: -8, marginTop: -8 }}
+                />
+                <MaterialCommunityIcons
+                  name="account-circle"
+                  size={30}
+                  color={colors.white}
+                  style={{ position: 'absolute', right: 14, bottom: 12 }}
+                />
               </Circle>
             }
           />
@@ -84,7 +94,14 @@ export default function Home() {
 }
 
 const styles = StyleSheet.create({
-  header: { backgroundColor: colors.primary, flexDirection: 'row', alignItems: 'center', gap: spacing.md, paddingHorizontal: spacing.lg, paddingBottom: spacing.md },
+  header: {
+    backgroundColor: colors.primary,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
+    paddingHorizontal: spacing.lg,
+    paddingBottom: spacing.md,
+  },
   hello: { color: colors.white, fontFamily: fonts.semibold, fontSize: fontSize.lg },
   role: { color: 'rgba(255,255,255,0.85)', fontFamily: fonts.regular, fontSize: fontSize.xs },
   brand: { color: colors.white, fontFamily: fonts.bold, fontSize: fontSize.lg, letterSpacing: 1 },

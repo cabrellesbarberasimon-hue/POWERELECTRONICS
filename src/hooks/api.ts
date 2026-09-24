@@ -33,13 +33,15 @@ export const keys = {
 export const useUsers = () => useQuery({ queryKey: keys.users, queryFn: () => api.auth.listUsers() });
 export const useCourses = (f?: CourseFilter) => useQuery({ queryKey: keys.courses(f), queryFn: () => api.university.listCourses(f) });
 export const useCourse = (id: string) => useQuery({ queryKey: keys.course(id), queryFn: () => api.university.getCourse(id) });
-export const useProgress = (userId: string) => useQuery({ queryKey: keys.progress(userId), queryFn: () => api.university.listProgress(userId) });
+export const useProgress = (userId: string) =>
+  useQuery({ queryKey: keys.progress(userId), queryFn: () => api.university.listProgress(userId) });
 export const usePosts = (f?: PostFilter) => useQuery({ queryKey: keys.posts(f), queryFn: () => api.social.listPosts(f) });
 export const usePost = (id: string) => useQuery({ queryKey: keys.post(id), queryFn: () => api.social.getPost(id) });
 export const useChallenges = () => useQuery({ queryKey: keys.challenges, queryFn: () => api.social.listChallenges() });
 export const useChallengeProgress = (id: string, userId: string) =>
   useQuery({ queryKey: keys.challengeProgress(id, userId), queryFn: () => api.social.challengeProgress(id, userId) });
-export const useContribution = (userId: string) => useQuery({ queryKey: keys.contribution(userId), queryFn: () => api.social.contribution(userId) });
+export const useContribution = (userId: string) =>
+  useQuery({ queryKey: keys.contribution(userId), queryFn: () => api.social.contribution(userId) });
 export const useRanking = () => useQuery({ queryKey: keys.ranking, queryFn: () => api.social.ranking() });
 export const useEquipmentList = () => useQuery({ queryKey: keys.equipment, queryFn: () => api.training.listEquipment() });
 export const useEquipment = (id: string) => useQuery({ queryKey: keys.equipmentOne(id), queryFn: () => api.training.getEquipment(id) });
@@ -48,7 +50,8 @@ export const useAlerts = (id: string) => useQuery({ queryKey: keys.alerts(id), q
 export const useHistory = (id: string) => useQuery({ queryKey: keys.history(id), queryFn: () => api.training.listHistory(id) });
 export const useTeamNotifications = (id: string, f?: NotificationFilter) =>
   useQuery({ queryKey: keys.notifications(id, f), queryFn: () => api.training.listTeamNotifications(id, f) });
-export const useSessions = (userId: string) => useQuery({ queryKey: keys.sessions(userId), queryFn: () => api.training.listSessions(userId) });
+export const useSessions = (userId: string) =>
+  useQuery({ queryKey: keys.sessions(userId), queryFn: () => api.training.listSessions(userId) });
 export const useLicense = () => useQuery({ queryKey: keys.license, queryFn: () => api.admin.getLicense() });
 export const useRecommendations = (userId: string) =>
   useQuery({ queryKey: keys.recommendations(userId), queryFn: () => api.ai.recommendationsFor(userId, 6) });
@@ -152,12 +155,18 @@ export function useAddTeamNotification() {
 
 export function useSaveSession() {
   const invalidate = useInvalidate();
-  return useMutation({ mutationFn: (s: TrainingSession) => api.training.saveSession(s), onSuccess: () => invalidate('training', 'social') });
+  return useMutation({
+    mutationFn: (s: TrainingSession) => api.training.saveSession(s),
+    onSuccess: () => invalidate('training', 'social'),
+  });
 }
 
 export function useSetUserRole() {
   const invalidate = useInvalidate();
-  return useMutation({ mutationFn: (v: { userId: string; role: Role }) => api.admin.setUserRole(v.userId, v.role), onSuccess: () => invalidate('users', 'social') });
+  return useMutation({
+    mutationFn: (v: { userId: string; role: Role }) => api.admin.setUserRole(v.userId, v.role),
+    onSuccess: () => invalidate('users', 'social'),
+  });
 }
 
 export function useUpdateTierPrice() {

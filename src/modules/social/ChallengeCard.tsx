@@ -32,7 +32,15 @@ export function ChallengeCard({ challenge }: { challenge: Challenge }) {
   return (
     <Card style={styles.card}>
       <View style={styles.head}>
-        <View style={[styles.period, { backgroundColor: challenge.period === 'annual' ? colors.navy : challenge.period === 'quarterly' ? colors.orange : colors.primary }]}>
+        <View
+          style={[
+            styles.period,
+            {
+              backgroundColor:
+                challenge.period === 'annual' ? colors.navy : challenge.period === 'quarterly' ? colors.orange : colors.primary,
+            },
+          ]}
+        >
           <Text style={styles.periodText}>{t(`social.period.${challenge.period}`)}</Text>
         </View>
         {challenge.createdBy === 'ai' && (
@@ -68,7 +76,14 @@ export function ChallengeCard({ challenge }: { challenge: Challenge }) {
         ) : joined ? (
           <OutlineButton compact label={t('common.continue')} iconRight="chevron-forward" onPress={act} style={{ flex: 1 }} />
         ) : (
-          <PrimaryButton compact label={t('social.join')} icon="flag" onPress={() => join.mutate(challenge.id)} loading={join.isPending} style={{ flex: 1 }} />
+          <PrimaryButton
+            compact
+            label={t('social.join')}
+            icon="flag"
+            onPress={() => join.mutate(challenge.id)}
+            loading={join.isPending}
+            style={{ flex: 1 }}
+          />
         )}
       </View>
     </Card>
@@ -81,7 +96,15 @@ const styles = StyleSheet.create({
   head: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
   period: { borderRadius: radius.sm, paddingHorizontal: 8, paddingVertical: 2 },
   periodText: { color: colors.white, fontFamily: fonts.semibold, fontSize: 10 },
-  ai: { flexDirection: 'row', alignItems: 'center', gap: 3, backgroundColor: colors.primarySoft, borderRadius: radius.sm, paddingHorizontal: 6, paddingVertical: 2 },
+  ai: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 3,
+    backgroundColor: colors.primarySoft,
+    borderRadius: radius.sm,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
   aiText: { color: colors.primary, fontFamily: fonts.medium, fontSize: 10 },
   points: { fontFamily: fonts.bold, color: colors.orange, fontSize: fontSize.md },
   title: { fontFamily: fonts.semibold, fontSize: fontSize.lg, color: colors.text, marginTop: spacing.sm },

@@ -27,10 +27,7 @@ export function Screen({
     <View style={[styles.root, { backgroundColor: bg }]}>
       {header}
       {scroll ? (
-        <ScrollView
-          contentContainerStyle={[content, { paddingBottom: insets.bottom + spacing.xxl }]}
-          keyboardShouldPersistTaps="handled"
-        >
+        <ScrollView contentContainerStyle={[content, { paddingBottom: insets.bottom + spacing.xxl }]} keyboardShouldPersistTaps="handled">
           {children}
         </ScrollView>
       ) : (
